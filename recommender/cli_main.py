@@ -1,6 +1,6 @@
 import os
 import sys
-from recommender_engine import DiabetesDietRecommender
+from .recommender_engine import DiabetesDietRecommender
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
