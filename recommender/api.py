@@ -8,7 +8,6 @@ from fastapi.middleware.cors import CORSMiddleware
 #  Path for the Recommender Engine
 current_script_dir = os.path.dirname(os.path.abspath(__file__))
 
-
 sys.path.insert(0, current_script_dir)
 
 # project root directory.
@@ -30,7 +29,7 @@ origins = [
     "https://nutrition-app-ivory.vercel.app/"
 
 
-    "http://localhost:63342", #
+    "http://localhost:63342",  #
     "http://localhost:8001",
     "http://127.0.0.1:8001",
     "http://localhost:5500",
@@ -40,15 +39,15 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,         # List of allowed origins
-    allow_credentials=True,        # Allow for cookies to be included in cross-origin requests
-    allow_methods=["*"],           # HTTP methods (GET, POST, PUT, DELETE)
-    allow_headers=["*"],           # HTTP headers in cross-origin requests
+    allow_origins=origins,  # List of allowed origins
+    allow_credentials=True,  # Allow for cookies to be included in cross-origin requests
+    allow_methods=["*"],  # HTTP methods (GET, POST, PUT, DELETE)
+    allow_headers=["*"],  # HTTP headers in cross-origin requests
 )
 
 try:
 
-    food_data_full_path = "data/FoodData_Cleaned.csv"
+    food_data_full_path = os.path.join(current_script_dir, "data", "FoodData_Cleaned.csv")
     models_full_dir = os.path.join(current_script_dir, "models")
 
     recommender_instance = DiabetesDietRecommender(
