@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, Query
 from typing import List, Optional
 import os
 import sys
-from recommender_engine import DiabetesDietRecommender
+from .recommender_engine import DiabetesDietRecommender
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import csv # Still imported, but feedback will go to DB
