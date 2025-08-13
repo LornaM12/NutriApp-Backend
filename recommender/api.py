@@ -12,6 +12,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 import bcrypt
 import uuid
+import json
 
 # --- Load environment variables from .env file ---
 load_dotenv()
@@ -40,23 +41,27 @@ class UserLogin(BaseModel):
 
 # --- GOOGLE SHEETS CONFIGURATION (using environment variables) ---
 GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID")
-CREDENTIALS_FILE_PATH = os.environ.get("GOOGLE_CREDENTIALS_PATH")
+GOOGLE_CREDENTIALS_JSON = os.environ.get("GOOGLE_CREDENTIALS_JSON")
 
 if GOOGLE_SHEET_ID is None:
     logging.error("Environment variable GOOGLE_SHEET_ID is not set.")
     sys.exit(1)
 
-if CREDENTIALS_FILE_PATH is None:
-    logging.error("Environment variable GOOGLE_CREDENTIALS_PATH is not set.")
+if GOOGLE_CREDENTIALS_JSON is None:
+    logging.error("Environment variable GOOGLE_CREDENTIALS_JSON is not set.")
     sys.exit(1)
 
 
-# --- GOOGLE SHEETS INITIALIZATION (updated to handle multiple sheets) ---
+# --- GOOGLE SHEETS INITIALIZATION (updated to handle multiple sheets and secure credentials) ---
 def initialize_worksheet(worksheet_name, headers):
     """Connects to a specific worksheet and ensures the header row exists."""
     try:
         scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-        creds = ServiceAccountCredentials.from_json_keyfile_name(CREDENTIALS_FILE_PATH, scope)
+
+        # Read credentials directly from the environment variable
+        creds = ServiceAccountCredentials.from_json_keyfile_dict(
+            json.loads(GOOGLE_CREDENTIALS_JSON), scope
+        )
         client = gspread.authorize(creds)
 
         spreadsheet = client.open_by_key(GOOGLE_SHEET_ID)
@@ -76,7 +81,6 @@ def initialize_worksheet(worksheet_name, headers):
         logger.error(f"Error initializing Google Sheet worksheet '{worksheet_name}': {e}")
         return None
 
-
 # Initialize the Google Sheet clients globally
 try:
     SHEET_CLIENT_FEEDBACK = initialize_worksheet("Feedback", ['timestamp', 'rating', 'feedback_text', 'contact_email'])
@@ -84,6 +88,7 @@ try:
 except Exception:
     SHEET_CLIENT_FEEDBACK = None
     SHEET_CLIENT_USERS = None
+
 
 # Path for the Recommender Engine
 current_script_dir = os.path.dirname(os.path.abspath(__file__))
