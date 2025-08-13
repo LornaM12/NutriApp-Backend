@@ -2,92 +2,92 @@ from fastapi import FastAPI, HTTPException, Query
 from typing import List, Optional
 import os
 import sys
-from .recommender_engine import DiabetesDietRecommender
+from recommender_engine import DiabetesDietRecommender
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import csv # Still imported, but feedback will go to DB
+import logging
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
+from dotenv import load_dotenv
+import bcrypt
+import uuid
 
-# NEW IMPORTS FOR DATABASE
-from sqlalchemy import create_engine, text, Column, Integer, String, DateTime
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
-import urllib.parse # For parsing DB URL
-import logging # For better logging
+# --- Load environment variables from .env file ---
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Define a Pydantic model for feedback data
+
+# Define Pydantic models for data
 class Feedback(BaseModel):
     rating: int
     feedback_text: Optional[str] = None
     contact_email: Optional[str] = None
 
-# --- DATABASE CONFIGURATION (NEW) ---
-# Get database URL from environment variable (Render will provide this)
-# For local testing, you can set this in your environment or directly here for now.
-# Example: DATABASE_URL = "postgresql://user:password@localhost/dbname"
-DATABASE_URL = "postgresql://feedback_db_aval_user:I9Hn5kvMMtrlv0hCsTtHxmuk3kMX9Cxi@dpg-d1j6mnidbo4c73c7j8o0-a.oregon-postgres.render.com/feedback_db_aval"
 
-if not DATABASE_URL:
-    # Fallback for local development if not set as env var
-    # REPLACE THIS WITH YOUR ACTUAL RENDER INTERNAL DATABASE URL FOR LOCAL TESTING
-    # Example: "postgresql://render_user:render_password@dpg-xxxxxx.oregon-postgres.render.com/nutriapp_db_name"
-    logger.warning("DATABASE_URL environment variable not set. Using a placeholder for local testing.")
-    DATABASE_URL = "postgresql://your_user:your_password@localhost:5432/your_database_name"
-    # IMPORTANT: For Render deployment, ensure DATABASE_URL is set as an environment variable
-    # in your Render service settings.
+class UserSignup(BaseModel):
+    username: str
+    password: str
 
-# Parse the database URL to handle special characters in password if any
-# This is especially important if your password contains characters like '#' or '@'
-parsed_url = urllib.parse.urlparse(DATABASE_URL)
-db_user = parsed_url.username
-db_password = urllib.parse.quote_plus(parsed_url.password) if parsed_url.password else ''
-db_host = parsed_url.hostname
-db_port = parsed_url.port if parsed_url.port else 5432
-db_name = parsed_url.path[1:] # Remove leading slash
 
-# Reconstruct the URL with properly quoted password
-DB_CONNECTION_STRING = (
-    f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
-)
+class UserLogin(BaseModel):
+    username: str
+    password: str
 
-# SQLAlchemy setup
-Engine = create_engine(DB_CONNECTION_STRING)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=Engine)
-Base = declarative_base()
 
-# Define the Feedback table (NEW)
-class FeedbackDB(Base):
-    __tablename__ = "feedback"
-    id = Column(Integer, primary_key=True, index=True)
-    timestamp = Column(DateTime, default=datetime.utcnow)
-    rating = Column(Integer, nullable=False)
-    feedback_text = Column(String, nullable=True)
-    contact_email = Column(String, nullable=True)
+# --- GOOGLE SHEETS CONFIGURATION (using environment variables) ---
+GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID")
+CREDENTIALS_FILE_PATH = os.environ.get("GOOGLE_CREDENTIALS_PATH")
 
-# Create tables in the database (if they don't exist)
-def create_db_tables():
+if GOOGLE_SHEET_ID is None:
+    logging.error("Environment variable GOOGLE_SHEET_ID is not set.")
+    sys.exit(1)
+
+if CREDENTIALS_FILE_PATH is None:
+    logging.error("Environment variable GOOGLE_CREDENTIALS_PATH is not set.")
+    sys.exit(1)
+
+
+# --- GOOGLE SHEETS INITIALIZATION (updated to handle multiple sheets) ---
+def initialize_worksheet(worksheet_name, headers):
+    """Connects to a specific worksheet and ensures the header row exists."""
     try:
-        Base.metadata.create_all(bind=Engine)
-        logger.info("Database tables created successfully or already exist.")
+        scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+        creds = ServiceAccountCredentials.from_json_keyfile_name(CREDENTIALS_FILE_PATH, scope)
+        client = gspread.authorize(creds)
+
+        spreadsheet = client.open_by_key(GOOGLE_SHEET_ID)
+
+        try:
+            sheet = spreadsheet.worksheet(worksheet_name)
+        except gspread.WorksheetNotFound:
+            sheet = spreadsheet.add_worksheet(worksheet_name, rows="100", cols="20")
+
+        if not sheet.row_values(1):
+            sheet.append_row(headers)
+
+        logger.info(f"Successfully connected to worksheet '{worksheet_name}'.")
+        return sheet
+
     except Exception as e:
-        logger.error(f"Error creating database tables: {e}")
-        # Optionally, raise the exception if database is critical for app startup
-        # raise e
+        logger.error(f"Error initializing Google Sheet worksheet '{worksheet_name}': {e}")
+        return None
 
-# Call this function when the app starts up
-create_db_tables()
 
+# Initialize the Google Sheet clients globally
+try:
+    SHEET_CLIENT_FEEDBACK = initialize_worksheet("Feedback", ['timestamp', 'rating', 'feedback_text', 'contact_email'])
+    SHEET_CLIENT_USERS = initialize_worksheet("Users", ['user_id', 'username', 'hashed_password'])
+except Exception:
+    SHEET_CLIENT_FEEDBACK = None
+    SHEET_CLIENT_USERS = None
 
 # Path for the Recommender Engine
 current_script_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, current_script_dir)
-
-# project root directory. (This might not be strictly needed with absolute imports for recommender_engine)
-project_root_dir = os.path.abspath(os.path.join(current_script_dir, ".."))
 
 # Initialize FastAPI
 app = FastAPI(
@@ -101,12 +101,12 @@ origins = [
     "http://localhost",
     "http://localhost:8000",
     "http://127.0.0.1:8000",  # running port
-    "https://nutrition-app-ivory.vercel.app", # Your deployed frontend URL
+    "https://nutrition-app-ivory.vercel.app",  # Your deployed frontend URL
     "http://localhost:63342",
-    "http://localhost:8001",
     "http://127.0.0.1:8001",
-    "http://localhost:5500",
+    "http://localhost:8001",
     "http://127.0.0.1:5500",
+    "http://localhost:5500",
 ]
 
 app.add_middleware(
@@ -131,16 +131,6 @@ except Exception as e:
     logger.error(f"Failed to initialize Diabetes Diet Recommender: {e}")
     logger.error("Check file locations and ensure they are correct")
     recommender_instance = None
-
-
-# REMOVED: CSV file path and initialization (no longer needed for feedback)
-# FEEDBACK_CSV_PATH = os.path.join(current_script_dir, "data", "feedback.csv")
-# os.makedirs(os.path.dirname(FEEDBACK_CSV_PATH), exist_ok=True)
-# if not os.path.exists(FEEDBACK_CSV_PATH):
-#     with open(FEEDBACK_CSV_PATH, 'w', newline='', encoding='utf-8') as f:
-#         writer = csv.writer(f)
-#         writer.writerow(['timestamp', 'rating', 'feedback_text', 'contact_email'])
-#     logger.info(f"Created new feedback CSV file at: {FEEDBACK_CSV_PATH}")
 
 
 # API Endpoint - GET Request for recommendations (Existing)
@@ -174,28 +164,90 @@ async def recommend_meal(
         raise HTTPException(status_code=500, detail=f"An error occurred during recommendation: {e}")
 
 
-# API Endpoint - POST Request for feedback (MODIFIED for DB)
+# API Endpoint - POST Request for feedback
 @app.post("/submit_feedback")
 async def submit_feedback(feedback: Feedback):
-    db = SessionLocal() # Get a new database session
+    if SHEET_CLIENT_FEEDBACK is None:
+        raise HTTPException(status_code=500, detail="Google Sheets connection failed on startup.")
+
     try:
-        new_feedback = FeedbackDB(
-            rating=feedback.rating,
-            feedback_text=feedback.feedback_text,
-            contact_email=feedback.contact_email,
-            timestamp=datetime.utcnow() # Use UTC for consistency
-        )
-        db.add(new_feedback)
-        db.commit()
-        db.refresh(new_feedback) # Refresh to get the generated ID
-        logger.info(f"Feedback submitted to DB: {new_feedback.id}")
+        timestamp = datetime.now().isoformat()
+        data_to_write = [
+            timestamp,
+            feedback.rating,
+            feedback.feedback_text,
+            feedback.contact_email
+        ]
+
+        SHEET_CLIENT_FEEDBACK.append_row(data_to_write)
+
+        logger.info(f"Feedback submitted to Google Sheet: {feedback.rating}")
         return {"message": "Feedback submitted successfully!"}
+
     except Exception as e:
-        db.rollback() # Rollback on error
-        logger.error(f"Error saving feedback to database: {e}")
+        logger.error(f"Error saving feedback to Google Sheet: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to submit feedback: {e}")
-    finally:
-        db.close() # Always close the session
+
+
+# API Endpoint - POST Request for signup
+@app.post("/signup")
+async def signup_user(user: UserSignup):
+    if SHEET_CLIENT_USERS is None:
+        raise HTTPException(status_code=500, detail="Google Sheets connection failed on startup.")
+
+    try:
+        # Check if username already exists
+        all_users = SHEET_CLIENT_USERS.get_all_records()
+        if any(u['username'] == user.username for u in all_users):
+            raise HTTPException(status_code=400, detail="Username already registered.")
+
+        # Hash the password
+        hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+        # Generate a unique user ID
+        user_id = str(uuid.uuid4())
+
+        # Prepare data for Google Sheet (matching the new order)
+        data_to_write = [
+            user_id,
+            user.username,
+            hashed_password
+        ]
+
+        # Append the new user row to the Google Sheet
+        SHEET_CLIENT_USERS.append_row(data_to_write)
+
+        logger.info(f"New user signed up: {user.username}")
+        return {"message": "User registered successfully!", "user_id": user_id}
+
+    except Exception as e:
+        logger.error(f"Error during user signup: {e}")
+        raise HTTPException(status_code=500, detail=f"An error occurred during signup: {e}")
+
+# API Endpoint - POST Request for login
+@app.post("/login")
+async def login_user(user: UserLogin):
+    if SHEET_CLIENT_USERS is None:
+        raise HTTPException(status_code=500, detail="Google Sheets connection failed on startup.")
+
+    try:
+        # Find the user by username
+        all_users = SHEET_CLIENT_USERS.get_all_records()
+        user_in_db = next((u for u in all_users if u['username'] == user.username), None)
+
+        if not user_in_db:
+            raise HTTPException(status_code=400, detail="Invalid username or password.")
+
+        # Check the password
+        if bcrypt.checkpw(user.password.encode('utf-8'), user_in_db['hashed_password'].encode('utf-8')):
+            logger.info(f"User logged in: {user.username}")
+            return {"message": "Login successful!", "user_id": user_in_db['user_id']}
+        else:
+            raise HTTPException(status_code=400, detail="Invalid username or password.")
+
+    except Exception as e:
+        logger.error(f"Error during user login: {e}")
+        raise HTTPException(status_code=500, detail=f"An error occurred during login: {e}")
 
 
 @app.get("/")

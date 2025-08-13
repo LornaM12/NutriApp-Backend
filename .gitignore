@@ -1,0 +1,11 @@
+# Ignore Python-related files
+__pycache__/
+*.pyc
+
+# Ignore virtual environment directories
+nutriapp-env/
+venv/
+
+# Ignore files with sensitive information
+credentials.json
+.env
