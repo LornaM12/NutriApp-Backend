@@ -153,6 +153,7 @@ origins = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",  # running port
     "https://nutrition-app-pndw.vercel.app",  # Deployed frontend URL
+    "https://nutrition-app-pi.vercel.app"
     "http://localhost:63342",
     "http://127.0.0.1:8001",
     "http://localhost:8001",
