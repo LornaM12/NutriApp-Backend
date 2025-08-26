@@ -151,15 +151,14 @@ app = FastAPI(
 origins = [
     "http://localhost",
     "http://localhost:8000",
-    "http://127.0.0.1:8000",  # running port
-    "https://nutrition-app-pndw.vercel.app",  # Deployed frontend URL
-    "https://nutrition-app-pi.vercel.app"
+    "http://127.0.0.1:8000",
+    "https://nutrition-app-pndw.vercel.app",
+    "https://nutrition-app-pi.vercel.app",   # Add comma here
     "http://localhost:63342",
     "http://127.0.0.1:8001",
     "http://localhost:8001",
     "http://127.0.0.1:5500",
     "http://localhost:5500",
-
 ]
 
 
@@ -169,6 +168,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+
 )
 
 try:
