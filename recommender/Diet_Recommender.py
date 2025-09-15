@@ -1,4 +1,4 @@
-from .recommender_engine import DiabetesDietRecommender
+from recommender_engine import DiabetesDietRecommender
 import os
 
 
@@ -6,7 +6,7 @@ def recommend_diet(patient_profile, meal_type, num_alternatives_per_slot=1):
 
     # Instantiate the recommender.
     recommender = DiabetesDietRecommender(
-        food_data_path=os.path.join(os.path.dirname(__file__), "data/FoodData_Cleaned.csv"),
+        food_data_path=os.path.join(os.path.dirname(__file__), "data/clustered_food_data.csv"),
         models_dir=os.path.join(os.path.dirname(__file__), "models/")
     )
 
@@ -39,8 +39,8 @@ if __name__ == "__main__":
 
     patient_test_profile = {
 
-        "FBS": 95,
-        "RBS": 110
+        "FBS": 90,
+        "RBS": 90
     }
 
     print("\n" + "=" * 70)

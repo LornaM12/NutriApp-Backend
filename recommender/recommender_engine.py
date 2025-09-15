@@ -5,7 +5,7 @@ import numpy as np
 
 
 class DiabetesDietRecommender:
-    def __init__(self, food_data_path="data/FoodData_Cleaned.csv", models_dir="models/"):
+    def __init__(self, food_data_path="data/clustered_food_data.csv", models_dir="models/"):
         # Load Food data
         try:
             self.food_df = pd.read_csv(food_data_path)
@@ -33,8 +33,7 @@ class DiabetesDietRecommender:
             raise
 
         self.clustering_features = [
-            'Calories', 'Carbohydrates', 'Protein', 'Fat',
-            'Fiber Content', 'Glycemic Index'
+            'calories', 'water_g', 'protein_g', 'fat_g', 'carbohydrates_g', 'fiber_g', 'niacin_mg', 'vitamin_a_', 'saturated_fat_g', 'monounsaturated_fat_g', 'polyunsaturated_fat_g', 'cholesterol_g', 'sodium_g', 'potassium_g', 'calcium_g', 'iron_g', 'magnesium_g', 'vitamin_c_g', 'thiamin_g', 'riboflavin_g', 'carb_fiber_ratio', 'protein_density', 'fat_energy_ratio', 'sodium_potassium_ratio'
         ]
 
         scaled_features_for_clustering = self.scaler.transform(self.food_df[self.clustering_features])
@@ -77,9 +76,9 @@ class DiabetesDietRecommender:
 
         # Defining meal components based on Food Type for balanced meals
         self.meal_composition = {
-            'breakfast': ['Protein', 'Carb', 'Vegetable'],
-            'lunch': ['Protein', 'Carb', 'Vegetable', 'Vegetable'],
-            'dinner': ['Protein', 'Carb', 'Vegetable', 'Vegetable'],
+            'breakfast': ['Protein', 'Carb', 'Vegetable','Fruit'],
+            'lunch': ['Protein', 'Carb', 'Vegetable', 'Fruit'],
+            'dinner': ['Protein', 'Carb', 'Vegetable', 'Fruit'],
             'snack': ['Protein', 'Vegetable', 'Carb']
         }
 
@@ -133,10 +132,10 @@ class DiabetesDietRecommender:
                 (eligible_foods['Food Type'] == 'Carb')
                 ]
             if not fast_carb_options.empty:
-                chosen_carb = fast_carb_options.sort_values(by=['Glycemic Index', 'Fiber Content'],
+                chosen_carb = fast_carb_options.sort_values(by=['carbohydrates_g', 'fiber_g'],
                                                             ascending=[False, True]).head(1)
                 recommendations.append(
-                    f"Immediate Action: {chosen_carb['Food Name'].iloc[0]} consume immediately to raise sugar)")
+                    f"Immediate Action: {chosen_carb['food_name'].iloc[0]} consume immediately to raise sugar)")
 
             stabilizing_recs = self.get_stabilizing_meal(meal_type, num_alternatives_per_slot = 1)
             if stabilizing_recs:
@@ -185,11 +184,11 @@ class DiabetesDietRecommender:
                 if priority_clusters_for_current_state:
                     priority_options = type_options[type_options['Cluster'].isin(priority_clusters_for_current_state)]
                     if not priority_options.empty:
-                        possible_items.extend(priority_options['Food Name'].tolist())
+                        possible_items.extend(priority_options['food_name'].tolist())
 
                 remaining_options = type_options[~type_options['Cluster'].isin(priority_clusters_for_current_state)]
                 if not remaining_options.empty:
-                    possible_items.extend(remaining_options['Food Name'].tolist())
+                    possible_items.extend(remaining_options['food_name'].tolist())
 
             elif sugar_state == 'normal_stable':
                 ordered_clusters = sorted(
@@ -210,7 +209,7 @@ class DiabetesDietRecommender:
                 for cluster_id in ordered_clusters:
                     cluster_options = type_options[type_options['Cluster'] == cluster_id]
                     if not cluster_options.empty:
-                        possible_items.extend(cluster_options['Food Name'].tolist())
+                        possible_items.extend(cluster_options['food_name'].tolist())
 
             unique_possible_items = list(dict.fromkeys(possible_items))
 
@@ -220,14 +219,14 @@ class DiabetesDietRecommender:
                 if num_to_sample > 0:
                     selected_items = np.random.choice(unique_possible_items, num_to_sample, replace=False).tolist()
                     meal_recommendations.append(f"{food_type_needed}: {', '.join(selected_items)}")
-                    eligible_foods = eligible_foods[~eligible_foods['Food Name'].isin(selected_items)]
+                    eligible_foods = eligible_foods[~eligible_foods['food_name'].isin(selected_items)]
             else:
                 meal_recommendations.append(f"Could not find {food_type_needed} options.")
 
         if not meal_recommendations or all("Could not find" in rec for rec in meal_recommendations):
             print("Falling back to general recommendations as specific meal components were hard to find.")
             fallback_foods = self.food_df[self.food_df['Suitable for Diabetes'] == 1].sample(min(3, len(self.food_df)))
-            recommendations.extend(fallback_foods['Food Name'].tolist())
+            recommendations.extend(fallback_foods['food_name'].tolist())
         else:
             recommendations.extend(meal_recommendations)
 
@@ -276,7 +275,7 @@ class DiabetesDietRecommender:
             for cluster_id in ordered_clusters:
                 cluster_options = type_options[type_options['Cluster'] == cluster_id]
                 if not cluster_options.empty:
-                    possible_items.extend(cluster_options['Food Name'].tolist())
+                    possible_items.extend(cluster_options['food_name'].tolist())
 
             unique_possible_items = list(dict.fromkeys(possible_items))
 
@@ -285,7 +284,7 @@ class DiabetesDietRecommender:
                 if num_to_sample > 0:
                     selected_items = np.random.choice(unique_possible_items, num_to_sample, replace=False).tolist()
                     stabilizing_recs.append(f"{food_type_needed}: {', '.join(selected_items)}")
-                    eligible_foods = eligible_foods[~eligible_foods['Food Name'].isin(selected_items)]
+                    eligible_foods = eligible_foods[~eligible_foods['food_name'].isin(selected_items)]
             else:
                 stabilizing_recs.append(f"Could not find {food_type_needed} options for stabilization.")
 
