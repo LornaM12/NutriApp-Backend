@@ -1,4 +1,4 @@
-from recommender_engine import DiabetesDietRecommender
+from .recommender_engine import DiabetesDietRecommender
 import os
 
 
