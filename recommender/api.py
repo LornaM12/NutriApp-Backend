@@ -775,6 +775,28 @@ async def get_dashboard_data(
         raise HTTPException(status_code=500, detail=f"Failed to generate dashboard data: {e}")
 
 
+@app.get("/api/sugar-readings")
+async def get_sugar_readings(user_id: str, limit: int = 10):
+    if SHEET_CLIENT_SUGAR is None:
+        raise HTTPException(status_code=500, detail="Google Sheets connection failed.")
+    
+    try:
+        # Get all records from the sheet
+        all_records = SHEET_CLIENT_SUGAR.get_all_records()
+        
+        # Filter by user_id
+        user_readings = [r for r in all_records if r.get('user_id') == user_id]
+        
+        # Sort by timestamp (most recent first)
+        user_readings.sort(key=lambda x: x.get('timestamp', ''), reverse=True)
+        
+        # Return limited results
+        return user_readings[:limit] if limit else user_readings
+        
+    except Exception as e:
+        logger.error(f"Error fetching sugar readings: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch readings: {e}")
+
 @app.get("/")
 async def read_root():
     return {"message": "Diabetes Diet Recommender API is running!"}
