@@ -137,32 +137,33 @@ from datetime import datetime, timedelta
 def get_chart_data(readings):
     """
     Process user readings and return chart data for the last 7 days.
-    readings: list of dicts with keys ['timestamp', 'value']
+    Now includes 'contexts' for tooltips.
     """
     # Ensure readings are sorted by timestamp
     sorted_readings = sorted(
         readings,
-        key=lambda r: datetime.fromisoformat(r['timestamp'])
+        key=lambda r: datetime.fromisoformat(r['timestamp'].replace("Z", "+00:00"))
     )
 
     # Limit to last 7 days
     cutoff = datetime.utcnow() - timedelta(days=7)
-    filtered = [r for r in sorted_readings if datetime.fromisoformat(r['timestamp']) >= cutoff]
+    filtered = [r for r in sorted_readings if datetime.fromisoformat(r['timestamp'].replace("Z", "+00:00")) >= cutoff]
 
     labels = []
     values = []
+    contexts = []  # <--- New List
 
     for r in filtered:
-        ts = datetime.fromisoformat(r['timestamp'])
-        labels.append(ts.strftime("%b %d"))  # e.g. "Sep 03"
+        ts = datetime.fromisoformat(r['timestamp'].replace("Z", "+00:00"))
+        labels.append(ts.strftime("%b %d %H:%M"))  # Added time for better precision
         values.append(float(r['value']))
+        contexts.append(r.get('meal_context', 'General')) # <--- Capture the context
 
     return {
         "labels": labels,
-        "values": values
+        "values": values,
+        "contexts": contexts # <--- Send it to frontend
     }
-
-
 
 # --- GOOGLE SHEETS CONFIGURATION (using environment variables) ---
 GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID")
@@ -648,11 +649,14 @@ async def get_recent_readings(
 
 
 # API Endpoint - GET Request for dashboard data
+# REPLACE the existing get_dashboard_data function in api.py with this:
+
 @app.get("/api/dashboard-data")
 async def get_dashboard_data(
-        user_id: str = Query(..., description="User ID (required)")  # <-- required now
+        user_id: str = Query(..., description="User ID (required)")
 ):
     try:
+        # 1. Default Clean Slate
         dashboard_data = {
             "currentReading": None,
             "todaysGoals": {
@@ -661,121 +665,175 @@ async def get_dashboard_data(
                 "exercise": {"current": 0, "target": 30, "unit": "min"}
             },
             "chartData": {
-                "sugarTrend": {"labels": [], "data": []},
-                "weeklyOverview": {"data": [85, 12, 3]}
+                "sugarTrend": {"labels": [], "values": [], "contexts": []},
+                "weeklyOverview": {"data": [0, 0, 0]} 
             }
         }
 
+        # Get today's date (Local time)
         today = datetime.now().date()
         today_str = today.isoformat()
+        
+        # Debug Print
+        print(f"--- DEBUG: Fetching Dashboard for User: {user_id} ---")
 
-        # ------------------ Sugar readings ------------------
+        # ------------------ Sugar readings & Charts ------------------
         if SHEET_CLIENT_SUGAR:
             try:
                 sugar_readings = SHEET_CLIENT_SUGAR.get_all_records()
-
-                # Only this user's readings
+                
+                # Filter for this user
                 user_readings = [
                     r for r in sugar_readings
                     if str(r.get('user_id', '')).strip() == user_id
-                       and str(r.get('value', '')).strip() != ''
+                    and str(r.get('value', '')).strip() != ''
                 ]
 
+                print(f"DEBUG: Found {len(user_readings)} total readings for this user.")
+
                 if user_readings:
-                    # Sort by timestamp (ISO format preferred)
-                    def parse_ts(row):
-                        ts = row.get('timestamp') or row.get('created_at') or ""
+                    # Helper to safely parse dates
+                    def safe_parse_date(ts_str):
+                        if not ts_str: return None
                         try:
-                            return datetime.fromisoformat(ts.replace("Z", "+00:00"))
-                        except Exception:
-                            return datetime.min
+                            # Try standard ISO
+                            return datetime.fromisoformat(ts_str.replace("Z", "+00:00")).replace(tzinfo=None)
+                        except ValueError:
+                            try:
+                                # Try format with space instead of T
+                                return datetime.strptime(ts_str, "%Y-%m-%d %H:%M:%S").replace(tzinfo=None)
+                            except:
+                                return None
 
-                    user_readings.sort(key=parse_ts, reverse=True)
+                    # Sort by timestamp
+                    user_readings.sort(key=lambda x: safe_parse_date(x.get('timestamp') or x.get('created_at')) or datetime.min, reverse=True)
 
-                    # Latest reading
+                    # --- A. CALCULATE WEEKLY OVERVIEW ---
+                    in_range = 0
+                    high = 0
+                    low = 0
+                    
+                    # 7 Days ago
+                    cutoff = datetime.now() - timedelta(days=7)
+                    
+                    valid_weekly_count = 0
+
+                    for r in user_readings:
+                        ts_str = r.get('timestamp') or r.get('created_at') or ""
+                        r_date = safe_parse_date(ts_str)
+                        
+                        if r_date and r_date >= cutoff:
+                            valid_weekly_count += 1
+                            try:
+                                val = float(r['value'])
+                                if val < 70: low += 1
+                                elif val > 180: high += 1
+                                else: in_range += 1
+                            except:
+                                continue
+                    
+                    print(f"DEBUG: Valid readings in last 7 days: {valid_weekly_count}")
+                    print(f"DEBUG: Breakdown - High: {high}, Low: {low}, Range: {in_range}")
+
+                    total = in_range + high + low
+                    if total > 0:
+                        # Calculate percentages
+                        p_range = round((in_range / total) * 100)
+                        p_high = round((high / total) * 100)
+                        p_low = round((low / total) * 100)
+                        
+                        # Adjust rounding errors to ensure sum is 100
+                        diff = 100 - (p_range + p_high + p_low)
+                        if diff != 0:
+                            p_range += diff
+                            
+                        dashboard_data["chartData"]["weeklyOverview"]["data"] = [p_range, p_high, p_low]
+                    else:
+                        # Explicitly set 0s so frontend knows it's empty
+                        dashboard_data["chartData"]["weeklyOverview"]["data"] = [0, 0, 0]
+
+                    # --- B. Latest Reading ---
                     latest_reading = user_readings[0]
                     dashboard_data["currentReading"] = {
                         "value": float(latest_reading['value']),
-                        "timestamp": latest_reading.get('timestamp') or latest_reading.get('created_at') or ""
+                        "timestamp": latest_reading.get('timestamp')
                     }
 
-                    # Count today's readings
-                    todays_readings = [
-                        r for r in user_readings
-                        if (r.get('timestamp') or "").startswith(today_str)
-                           or (r.get('created_at') or "").startswith(today_str)
-                    ]
-                    dashboard_data["todaysGoals"]["readings"]["current"] = len(todays_readings)
+                    # --- C. Today's Count ---
+                    todays_readings_count = 0
+                    for r in user_readings:
+                        r_date = safe_parse_date(r.get('timestamp') or r.get('created_at'))
+                        if r_date and r_date.date() == today:
+                            todays_readings_count += 1
+                    
+                    dashboard_data["todaysGoals"]["readings"]["current"] = todays_readings_count
 
-                    # Prepare chart data (last 7 days)
-                    chart_data = get_chart_data(user_readings)
-                    dashboard_data["chartData"]["sugarTrend"] = chart_data
+                    # --- D. Chart Data ---
+                    # Reuse the get_chart_data logic but inline for safety
+                    labels = []
+                    values = []
+                    contexts = []
+                    
+                    # Reverse for the line chart (Oldest -> Newest)
+                    chart_source = [r for r in user_readings if safe_parse_date(r.get('timestamp')) and safe_parse_date(r.get('timestamp')) >= cutoff][::-1]
+                    
+                    for r in chart_source:
+                        d = safe_parse_date(r.get('timestamp'))
+                        labels.append(d.strftime("%b %d %H:%M"))
+                        values.append(float(r['value']))
+                        contexts.append(r.get('meal_context', ''))
+
+                    dashboard_data["chartData"]["sugarTrend"] = {
+                        "labels": labels, "values": values, "contexts": contexts
+                    }
 
             except Exception as e:
-                logger.error(f"Error processing sugar readings: {e}")
+                print(f"ERROR processing sugar: {e}")
 
-        # ------------------ Water intake ------------------
+        # ------------------ Water ------------------
         if SHEET_CLIENT_WATER:
             try:
                 water_records = SHEET_CLIENT_WATER.get_all_records()
-                todays_water = [
-                    w for w in water_records
-                    if str(w.get('user_id', '')).strip() == user_id
-                       and ((w.get('timestamp') or "").startswith(today_str))
-                ]
-
                 total_cups = 0
-                for water in todays_water:
-                    try:
-                        amount = float(water.get('amount', 0))
-                        unit = water.get('unit', 'cups')
-
-                        # Convert to cups
-                        if unit == 'cups':
-                            total_cups += amount
-                        elif unit == 'ml':
-                            total_cups += amount / 240
-                        elif unit == 'liters':
-                            total_cups += amount * 4.17
-                        elif unit == 'fl-oz':
-                            total_cups += amount / 8
-                        elif unit == 'bottles':
-                            total_cups += amount * 2.11
-                    except (ValueError, TypeError):
-                        continue
-
+                for w in water_records:
+                    if str(w.get('user_id', '')).strip() == user_id:
+                         # Simple string check for today
+                        ts = w.get('timestamp', '')
+                        if ts.startswith(today_str):
+                            try:
+                                amount = float(w.get('amount', 0))
+                                unit = w.get('unit', 'cups')
+                                if unit == 'cups': total_cups += amount
+                                elif unit == 'ml': total_cups += amount / 240
+                                elif unit == 'liters': total_cups += amount * 4.17
+                            except: continue
                 dashboard_data["todaysGoals"]["water"]["current"] = round(total_cups, 1)
-
             except Exception as e:
-                logger.error(f"Error processing water intake: {e}")
+                print(f"ERROR processing water: {e}")
 
         # ------------------ Exercise ------------------
         if SHEET_CLIENT_EXERCISE:
             try:
                 exercise_records = SHEET_CLIENT_EXERCISE.get_all_records()
-                todays_exercise = [
-                    e for e in exercise_records
-                    if str(e.get('user_id', '')).strip() == user_id
-                       and ((e.get('timestamp') or "").startswith(today_str))
-                ]
-
-                total_minutes = sum(
-                    int(e.get('duration_minutes', 0))
-                    for e in todays_exercise if str(e.get('duration_minutes', '')).isdigit()
-                )
+                total_minutes = 0
+                for e in exercise_records:
+                    if str(e.get('user_id', '')).strip() == user_id:
+                        ts = e.get('timestamp', '')
+                        if ts.startswith(today_str):
+                            try:
+                                total_minutes += int(e.get('duration_minutes', 0))
+                            except: continue
                 dashboard_data["todaysGoals"]["exercise"]["current"] = total_minutes
-
             except Exception as e:
-                logger.error(f"Error processing exercise data: {e}")
+                print(f"ERROR processing exercise: {e}")
 
         return dashboard_data
 
     except Exception as e:
-        logger.error(f"Error generating dashboard data: {e}")
+        print(f"CRITICAL ERROR in dashboard-data: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to generate dashboard data: {e}")
 
-
-@app.get("/api/sugar-readings")
+@app.get("/api/Loggedsugar-readings")
 async def get_sugar_readings(user_id: str, limit: int = 10):
     if SHEET_CLIENT_SUGAR is None:
         raise HTTPException(status_code=500, detail="Google Sheets connection failed.")
