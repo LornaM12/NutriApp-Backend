@@ -1,293 +1,236 @@
 import pandas as pd
+import numpy as np
 import joblib
 import os
-import numpy as np
-
+import random
 
 class DiabetesDietRecommender:
-    def __init__(self, food_data_path="data/clustered_food_data.csv", models_dir="models/"):
-        # Load Food data
+    def __init__(self, food_data_path="data/KenyaFoodCompositionsClean.csv", models_dir="models/"):
+        # 1. Load Data
         try:
             self.food_df = pd.read_csv(food_data_path)
-            if self.food_df.empty:
-                raise ValueError(
-                    f"Food data file '{food_data_path}' is empty.")
-        except FileNotFoundError:
-            print(f"Error: Food data file '{food_data_path}' not found.")
-            print("Please ensure preprocess.py has been run successfully to generate this file.")
-            raise
+            if self.food_df.empty: raise ValueError("Empty CSV")
+            self.food_df['tags'] = self.food_df['tags'].fillna('').astype(str)
+            self.food_df['food_name'] = self.food_df['food_name'].astype(str)
         except Exception as e:
-            print(f"Error loading food data: {e}")
+            print(f"Error loading data: {e}")
             raise
 
-        # Load scaler and model
+        # 2. Load AI Models (Optional)
         try:
-            self.scaler = joblib.load(os.path.join(models_dir, "scaler.pkl"))
             self.kmeans_model = joblib.load(os.path.join(models_dir, "kmeans_model.pkl"))
-        except FileNotFoundError:
-            print(f"Error: Model files not found in {models_dir}.")
-            print("Please ensure training.py has been run successfully to generate these models.")
-            raise
-        except Exception as e:
-            print(f"Error loading model files: {e}")
-            raise
+            self.scaler = joblib.load(os.path.join(models_dir, "scaler.pkl"))
+        except: pass
 
-        self.clustering_features = [
-            'calories', 'water_g', 'protein_g', 'fat_g', 'carbohydrates_g', 'fiber_g', 'niacin_mg', 'vitamin_a_', 'saturated_fat_g', 'monounsaturated_fat_g', 'polyunsaturated_fat_g', 'cholesterol_g', 'sodium_g', 'potassium_g', 'calcium_g', 'iron_g', 'magnesium_g', 'vitamin_c_g', 'thiamin_g', 'riboflavin_g', 'carb_fiber_ratio', 'protein_density', 'fat_energy_ratio', 'sodium_potassium_ratio'
-        ]
-
-        scaled_features_for_clustering = self.scaler.transform(self.food_df[self.clustering_features])
-        self.food_df['Cluster'] = self.kmeans_model.predict(scaled_features_for_clustering)
-
-        # Blood sugar thresholds - based on standard guidelines
-        self.FBS_HYPO = 70
-        self.FBS_NORMAL_MIN = 70
-        self.FBS_NORMAL_MAX = 99
-        self.FBS_HYPER = 180
-
-        self.RBS_HYPO = 70
-        self.RBS_NORMAL_MIN = 70
-        self.RBS_NORMAL_MAX = 139
-        self.RBS_HYPER = 200
-
-        # Cluster characteristics (from cluster_analysis.py)
-        self.cluster_characteristics = {
-            0: {'name': 'Moderate Carb, High GI', 'GI_risk': 'high', 'fiber_impact': 'low', 'protein_impact': 'low',
-                'focus': ['Carb', 'Other'], 'suitable_for_diabetes_prop': 0.76},
-            1: {'name': 'Low Everything (Light Foods/Drinks)', 'GI_risk': 'very_low', 'fiber_impact': 'low',
-                'protein_impact': 'low', 'focus': ['Vegetable', 'Other', 'Carb', 'Protein'],
-                'suitable_for_diabetes_prop': 1.00},
-            2: {'name': 'High Calorie/Fat, Low GI', 'GI_risk': 'very_low', 'fiber_impact': 'moderate_high',
-                'protein_impact': 'moderate', 'focus': ['Carb', 'Other', 'Protein'],
-                'suitable_for_diabetes_prop': 1.00},
-            3: {'name': 'Pure High Carb, Moderate-High GI', 'GI_risk': 'high', 'fiber_impact': 'very_low',
-                'protein_impact': 'very_low', 'focus': ['Carb'], 'suitable_for_diabetes_prop': 0.93},
-            4: {'name': 'High Protein, Very Low GI', 'GI_risk': 'very_low', 'fiber_impact': 'very_low',
-                'protein_impact': 'high', 'focus': ['Protein', 'Other'], 'suitable_for_diabetes_prop': 1.00}
+        # 3. Thresholds
+        self.THRESHOLDS = {
+            'FBS_HYPO': 70, 'FBS_HIGH': 126,
+            'RBS_HYPO': 70, 'RBS_HIGH': 200,
+            'WATER_TARGET': 8, 
+            'EXERCISE_MIN': 30 
         }
 
-        # Defining preferred clusters for different blood sugar states for primary filtering
-        self.preferred_clusters_by_sugar_state = {
-            'hypoglycemic_fast': [0, 3],
-            'high_sugar': [1, 2, 4],
-            'normal_stable': [1, 2, 4, 0, 3],
-            'unstable': [1, 2, 4]
+        # 4. Safe Defaults (Fallback for Lunch/Dinner)
+        self.SAFE_DEFAULTS = {
+            'Starch': ['Ugali', 'Brown Rice', 'Sweet Potato', 'Green Bananas (Matoke)'],
+            'Protein': ['Beef Stew', 'Chicken Stew', 'Beans (Kamande)', 'Green Grams (Ndengu)', 'Tilapia'],
+            'Veggie': ['Spinach', 'Sukuma Wiki', 'Managu', 'Cabbage', 'Kales'],
+            'Fruit': ['Watermelon', 'Pawpaw', 'Orange']
         }
 
-        # Defining meal components based on Food Type for balanced meals
-        self.meal_composition = {
-            'breakfast': ['Protein', 'Carb', 'Vegetable','Fruit'],
-            'lunch': ['Protein', 'Carb', 'Vegetable', 'Fruit'],
-            'dinner': ['Protein', 'Carb', 'Vegetable', 'Fruit'],
-            'snack': ['Protein', 'Vegetable', 'Carb']
-        }
+    def analyze_user_state(self, profile):
+        state = {'sugar_status': 'normal', 'hydration_status': 'normal', 'activity_status': 'sedentary'}
+        
+        fbs = profile.get('fbs')
+        rbs = profile.get('rbs')
+        
+        if (fbs and fbs < self.THRESHOLDS['FBS_HYPO']) or (rbs and rbs < self.THRESHOLDS['RBS_HYPO']):
+            state['sugar_status'] = 'hypoglycemic'
+        elif (fbs and fbs >= self.THRESHOLDS['FBS_HIGH']) or (rbs and rbs >= self.THRESHOLDS['RBS_HIGH']):
+            state['sugar_status'] = 'high_sugar'
 
-    # Categorize patients depending on their sugar states
-    def get_blood_sugar_state(self, fbs_level=None, rbs_level=None):
+        water_cups = profile.get('water_cups', 0)
+        if water_cups < (self.THRESHOLDS['WATER_TARGET'] / 2):
+            state['hydration_status'] = 'dehydrated'
 
-        if (fbs_level is not None and fbs_level < self.FBS_HYPO) or \
-                (rbs_level is not None and rbs_level < self.RBS_HYPO):
-            return 'hypoglycemic'
+        exercise_mins = profile.get('exercise_mins', 0)
+        if exercise_mins >= self.THRESHOLDS['EXERCISE_MIN']:
+            state['activity_status'] = 'active'
 
-        is_fbs_high = (fbs_level is not None and fbs_level >= self.FBS_HYPER)
-        is_rbs_high = (rbs_level is not None and rbs_level >= self.RBS_HYPER)
+        return state
 
-        if is_fbs_high or is_rbs_high:
-            return 'high_sugar'
+    def recommend_diet(self, user_profile, meal_type="lunch", num_alternatives=1, disliked_foods=None):
+        """
+        Generates recommendations, filtering out 'disliked_foods' if provided.
+        disliked_foods: List of strings (e.g., ['Omena', 'Kales'])
+        """
+        state = self.analyze_user_state(user_profile)
+        print(f"\n--- DEBUG: Recommending for {meal_type} ({state['sugar_status']}) ---")
+        
+        # Start with all foods
+        eligible_foods = self.food_df.copy()
 
-        is_fbs_normal = (fbs_level is not None and self.FBS_NORMAL_MIN <= fbs_level <= self.FBS_NORMAL_MAX)
-        is_rbs_normal = (rbs_level is not None and self.RBS_NORMAL_MIN <= rbs_level <= self.RBS_NORMAL_MAX)
+        # --- FEEDBACK LOOP FILTER ---
+        if disliked_foods:
+            print(f"DEBUG: Filtering out user dislikes: {disliked_foods}")
+            # Create a regex pattern to match any disliked food name (case insensitive)
+            # e.g., if disliked=['Omena'], it removes "Fried Omena", "Dried Omena", etc.
+            pattern = '|'.join([str(x).strip() for x in disliked_foods if x])
+            if pattern:
+                eligible_foods = eligible_foods[
+                    ~eligible_foods['food_name'].str.contains(pattern, case=False, na=False)
+                ]
 
-        if (fbs_level is not None and rbs_level is not None and is_fbs_normal and is_rbs_normal) or \
-                (fbs_level is not None and rbs_level is None and is_fbs_normal) or \
-                (rbs_level is not None and fbs_level is None and is_rbs_normal):
-            return 'normal_stable'
+        # A. HYPOGLYCEMIA
+        if state['sugar_status'] == 'hypoglycemic':
+            rescue = eligible_foods[
+                (eligible_foods['Category'].isin(['Starch', 'Fruit', 'Sweet'])) & 
+                (eligible_foods['fiber_g'] < 2)
+            ].sort_values(by='carbohydrates_g', ascending=False)
+            
+            recs = [f"🚨 URGENT: {rescue.iloc[0]['food_name']}" if not rescue.empty else "🚨 URGENT: Juice/Glucose"]
+            recs.append("Info: Once stable, eat below:")
+            recs.extend(self._build_meal(eligible_foods, meal_type, num_alternatives, state))
+            return recs
 
-        if fbs_level is not None or rbs_level is not None:
-            return 'unstable'
+        # B. STANDARD MEAL
+        return self._build_meal(eligible_foods, meal_type, num_alternatives, state)
 
-        return 'unknown'
+    def _get_breakfast_options(self, df, category):
+        """Logic strictly for Breakfast items."""
+        name_series = df['food_name'].str.lower()
+        
+        if category == 'Beverage':
+            return df[~name_series.str.contains('water|wine|beer|alcohol|Coconut', na=False)]
 
-    def recommend_diet(self, fbs_level=None, rbs_level=None, meal_type="any", num_alternatives_per_slot=1):
+        if category == 'Starch':
+            keywords = ['potato', 'yam', 'cassava', 'arrowroot', 'nduma', 'ngwaci', 'taro', 'bread', 'bun', 'toast', 'oats', 'mandazi', 'mahamri', 'pancake', 'chapati']
+            matches = df[name_series.str.contains('|'.join(keywords), na=False)]
+            return matches if not matches.empty else df 
 
-        sugar_state = self.get_blood_sugar_state(fbs_level=fbs_level, rbs_level=rbs_level)
+        if category == 'Protein':
+            keywords = ['egg', 'sausage', 'bacon', 'milk', 'yogurt']
+            matches = df[name_series.str.contains('|'.join(keywords), na=False)]
+            return matches if not matches.empty else df 
 
-        current_sugar_display = []
-        if fbs_level is not None:
-            current_sugar_display.append(f"FBS: {fbs_level} mg/dL")
-        if rbs_level is not None:
-            current_sugar_display.append(f"RBS: {rbs_level} mg/dL")
+        if category == 'Vegetable':
+            return df 
 
-        print(
-            f"\n Patient Sugar state: {sugar_state}")
-        print(f"Meal Type: {meal_type.capitalize()}")
+        return df
 
+    def _get_lunch_dinner_options(self, df, category):
+        """Logic strictly for Main Meals (Lunch/Dinner)."""
+        name_series = df['food_name'].str.lower()
+
+        if category == 'Starch':
+            allow_keywords = ['ugali', 'rice', 'chapati', 'pasta', 'spaghetti', 'matoke', 'plantain', 'corn', 'maize', 'githeri', 'pilau', 'biryani', 'mukimo', 'couscous']
+            exclude_keywords = ['porridge', 'uji', 'oats', 'toast', 'bun', 'mandazi', 'mahamri', 'pancake', 'scone', 'arrowroot', 'nduma', 'ngwaci', 'sweet potato', 'yam', 'cassava', 'taro']
+            
+            matches = df[name_series.str.contains('|'.join(allow_keywords), na=False)]
+            matches = matches[~matches['food_name'].str.lower().str.contains('|'.join(exclude_keywords), na=False)]
+            return matches if not matches.empty else df
+
+        if category == 'Protein':
+            exclude = ['milk', 'yogurt', 'tea', 'coffee', 'cocoa', 'porridge']
+            matches = df[~name_series.str.contains('|'.join(exclude), na=False)]
+            return matches if not matches.empty else df
+
+        if category == 'Vegetable':
+            return df 
+
+        return df
+
+    def _build_meal(self, df, meal_type, num_options, state):
         recommendations = []
-        eligible_foods = self.food_df[self.food_df['Suitable for Diabetes'] == 1].copy()
-
-        if sugar_state == 'hypoglycemic':
-            print("Action: Hypoglycemia detected. Recommending fast-acting carb.")
-            fast_carb_options = eligible_foods[
-                eligible_foods['Cluster'].isin(self.preferred_clusters_by_sugar_state['hypoglycemic_fast']) &
-                (eligible_foods['Food Type'] == 'Carb')
-                ]
-            if not fast_carb_options.empty:
-                chosen_carb = fast_carb_options.sort_values(by=['carbohydrates_g', 'fiber_g'],
-                                                            ascending=[False, True]).head(1)
-                recommendations.append(
-                    f"Immediate Action: {chosen_carb['food_name'].iloc[0]} consume immediately to raise sugar)")
-
-            stabilizing_recs = self.get_stabilizing_meal(meal_type, num_alternatives_per_slot = 1)
-            if stabilizing_recs:
-                recommendations.append("Follow-up meal:")
-                recommendations.extend(stabilizing_recs)
-            return recommendations
-
-        target_clusters_for_state = self.preferred_clusters_by_sugar_state.get(sugar_state,
-                                                                               self.preferred_clusters_by_sugar_state[
-                                                                                   'normal_stable'])
-
-        if sugar_state in ['high_sugar', 'unstable']:
-            eligible_foods = eligible_foods[eligible_foods['Cluster'].isin(target_clusters_for_state)]
-            print(
-                f"Filtered by sugar state '{sugar_state}': Only considering foods from clusters {target_clusters_for_state}.")
-        elif sugar_state == 'normal_stable':
-            print(
-                f"Blood sugar is normal and stable. Considering a broad range of diabetes-suitable foods for a "
-                f"balanced meal.")
-
-        if eligible_foods.empty:
-            return [
-                "No suitable recommendations found based on your criteria and available food items. Please broaden "
-                "your criteria or consult a dietitian."]
-
-        meal_types_needed = self.meal_composition.get(meal_type.lower(), ['Protein', 'Carb', 'Vegetable'])
-
-        meal_recommendations = []
-
-        for food_type_needed in meal_types_needed:
-            possible_items = []
-            type_options = eligible_foods[
-                (eligible_foods['Food Type'] == food_type_needed)
-            ].copy()
-
-            if type_options.empty:
-                print(f"Warning: No eligible food found for '{food_type_needed}' within remaining filters.")
-                continue
-
-            if sugar_state == 'high_sugar' or sugar_state == 'unstable':
-                priority_clusters_for_current_state = [
-                    cluster_id for cluster_id in [1, 2, 4]
-                    if cluster_id in type_options['Cluster'].unique()
-                ]
-
-                if priority_clusters_for_current_state:
-                    priority_options = type_options[type_options['Cluster'].isin(priority_clusters_for_current_state)]
-                    if not priority_options.empty:
-                        possible_items.extend(priority_options['food_name'].tolist())
-
-                remaining_options = type_options[~type_options['Cluster'].isin(priority_clusters_for_current_state)]
-                if not remaining_options.empty:
-                    possible_items.extend(remaining_options['food_name'].tolist())
-
-            elif sugar_state == 'normal_stable':
-                ordered_clusters = sorted(
-                    type_options['Cluster'].unique(),
-                    key=lambda c: (
-                        0 if self.cluster_characteristics[c]['GI_risk'] == 'very_low' else
-                        1 if self.cluster_characteristics[c]['GI_risk'] == 'low' else
-                        2 if self.cluster_characteristics[c]['GI_risk'] == 'moderate' else
-                        3 if self.cluster_characteristics[c]['GI_risk'] == 'high' else 4,
-                        - (0 if self.cluster_characteristics[c]['fiber_impact'] == 'very_low' else
-                           1 if self.cluster_characteristics[c]['fiber_impact'] == 'low' else
-                           2 if self.cluster_characteristics[c]['fiber_impact'] == 'moderate' else
-                           3 if self.cluster_characteristics[c]['fiber_impact'] == 'moderate_high' else
-                           4)
-                    )
-                )
-
-                for cluster_id in ordered_clusters:
-                    cluster_options = type_options[type_options['Cluster'] == cluster_id]
-                    if not cluster_options.empty:
-                        possible_items.extend(cluster_options['food_name'].tolist())
-
-            unique_possible_items = list(dict.fromkeys(possible_items))
-
-            if unique_possible_items:
-                num_to_sample = min(num_alternatives_per_slot, len(unique_possible_items))
-
-                if num_to_sample > 0:
-                    selected_items = np.random.choice(unique_possible_items, num_to_sample, replace=False).tolist()
-                    meal_recommendations.append(f"{food_type_needed}: {', '.join(selected_items)}")
-                    eligible_foods = eligible_foods[~eligible_foods['food_name'].isin(selected_items)]
-            else:
-                meal_recommendations.append(f"Could not find {food_type_needed} options.")
-
-        if not meal_recommendations or all("Could not find" in rec for rec in meal_recommendations):
-            print("Falling back to general recommendations as specific meal components were hard to find.")
-            fallback_foods = self.food_df[self.food_df['Suitable for Diabetes'] == 1].sample(min(3, len(self.food_df)))
-            recommendations.extend(fallback_foods['food_name'].tolist())
+        
+        # 1. SCORE SORTING
+        min_score = 50 if state['sugar_status'] == 'high_sugar' else 20
+        
+        if state['hydration_status'] == 'dehydrated':
+            df = df.sort_values(by='hydration_score', ascending=False)
         else:
-            recommendations.extend(meal_recommendations)
+            df = df.sort_values(by='diabetes_score', ascending=False)
+
+        # 2. SAFETY POOL
+        safe_df = df[df['diabetes_score'] >= min_score]
+        if safe_df.empty: safe_df = df[df['diabetes_score'] >= 10]
+
+        # 3. DEFINE SLOTS
+        if meal_type == 'breakfast':
+            slot_names = ['Beverage', 'Starch', 'Protein', 'Vegetable']
+        elif meal_type == 'snack':
+            slot_names = ['Fruit']
+        else:
+            slot_names = ['Protein', 'Starch', 'Veggie', 'Fruit']
+
+        for slot in slot_names:
+            # Step A: Get Candidate Foods
+            source_df = df if slot == 'Beverage' else safe_df
+            target_cat = 'Vegetable' if slot == 'Veggie' else slot
+            category_options = source_df[source_df['Category'] == target_cat]
+            
+            # Step B: Apply Meal-Specific Logic
+            if meal_type == 'breakfast':
+                appropriate_options = self._get_breakfast_options(category_options, target_cat)
+            else:
+                appropriate_options = self._get_lunch_dinner_options(category_options, target_cat)
+
+            # Step C: Fallback (Relax filters if empty)
+            if appropriate_options.empty:
+                print(f"DEBUG: No '{slot}' found for {meal_type}. Relaxing filters...")
+                fallback_df = df[df['Category'] == target_cat]
+                if meal_type == 'breakfast':
+                    appropriate_options = self._get_breakfast_options(fallback_df, target_cat)
+                else:
+                    appropriate_options = self._get_lunch_dinner_options(fallback_df, target_cat)
+
+            # Step D: Apply State Modifiers
+            final_pool = appropriate_options
+            
+            if not final_pool.empty:
+                if state['activity_status'] == 'active' and slot in ['Fruit', 'Veggie']:
+                    k_rich = final_pool[final_pool['tags'].str.contains('High Potassium', na=False)]
+                    if not k_rich.empty: final_pool = k_rich
+
+                if state['hydration_status'] == 'dehydrated' and slot in ['Fruit', 'Veggie']:
+                    hydrating = final_pool[final_pool['tags'].str.contains('Hydrating', na=False)]
+                    if not hydrating.empty: final_pool = hydrating
+
+            # --- SAFETY NET (OPTION B) ---
+            if final_pool.empty and meal_type in ['lunch', 'dinner']:
+                print(f"DEBUG: Critical Failure for {slot} in {meal_type}. Using SAFE DEFAULT.")
+                # We need to pick a safe default that is NOT in the disliked list? 
+                # Ideally, but for now let's just pick one.
+                safe_choice = random.choice(self.SAFE_DEFAULTS.get(slot, ['Standard Option']))
+                recommendations.append(f"{slot}: {safe_choice}")
+                continue 
+
+            # --- FINAL SELECTION ---
+            if not final_pool.empty:
+                chosen = final_pool.sample(min(num_options, len(final_pool)))
+                recommendations.append(f"{slot}: {', '.join(chosen['food_name'].tolist())}")
+                print(f"DEBUG: Selected {slot}: {chosen['food_name'].tolist()}")
+            else:
+                recommendations.append(f"{slot}: No suitable options found")
+                print(f"DEBUG: FAILED to find {slot}")
 
         return recommendations
 
-    def get_stabilizing_meal(self, meal_type, num_alternatives_per_slot):
-        # This function will recommend a balanced meal after a hypo event i.e - when fbs/rbs is < 70
-        print("Recommending a stabilizing meal for hypoglycemia.")
-        eligible_foods = self.food_df[self.food_df['Suitable for Diabetes'] == 1].copy()
+    def generate_insight(self, user_profile):
+        state = self.analyze_user_state(user_profile)
+        tips = []
 
-        target_clusters_stabilizing = self.preferred_clusters_by_sugar_state['normal_stable']
-        eligible_foods = eligible_foods[eligible_foods['Cluster'].isin(target_clusters_stabilizing)]
+        if state['sugar_status'] == 'hypoglycemic':
+            tips.append("⚠️ <strong>Low Sugar:</strong> We've added fast-acting carbs to stabilize you.")
+        elif state['sugar_status'] == 'high_sugar':
+            tips.append("⚠️ <strong>High Sugar:</strong> We've minimized processed carbs and prioritized fiber.")
+        else:
+            tips.append("✅ <strong>Sugar Normal:</strong> This balanced meal helps maintain your stability.")
 
-        if eligible_foods.empty:
-            return ["No suitable stabilizing meal found based on criteria. Please consult a dietitian."]
+        if state['hydration_status'] == 'dehydrated':
+            tips.append("💧 <strong>Low Water Intake:</strong> We selected hydrating foods (soups/fruits). Please drink water!")
 
-        meal_types_needed = self.meal_composition.get(meal_type.lower(), ['Protein', 'Carb', 'Vegetable'])
-        stabilizing_recs = []
-        chosen_food_names = set()
+        if state['activity_status'] == 'active':
+            tips.append("💪 <strong>Good Activity!</strong> We've added potassium-rich foods to help muscle recovery.")
 
-        for food_type_needed in meal_types_needed:
-            possible_items = []
-            type_options = eligible_foods[
-                (eligible_foods['Food Type'] == food_type_needed)
-            ].copy()
-
-            if type_options.empty:
-                stabilizing_recs.append(f"Could not find {food_type_needed} options for stabilization.")
-                continue
-
-            ordered_clusters = sorted(
-                type_options['Cluster'].unique(),
-                key=lambda c: (
-                    0 if self.cluster_characteristics[c]['GI_risk'] == 'very_low' else
-                    1 if self.cluster_characteristics[c]['GI_risk'] == 'low' else
-                    2 if self.cluster_characteristics[c]['GI_risk'] == 'moderate' else
-                    3 if self.cluster_characteristics[c]['GI_risk'] == 'high' else 4,
-                    - (0 if self.cluster_characteristics[c]['fiber_impact'] == 'very_low' else
-                       1 if self.cluster_characteristics[c]['fiber_impact'] == 'low' else
-                       2 if self.cluster_characteristics[c]['fiber_impact'] == 'moderate' else
-                       3 if self.cluster_characteristics[c]['fiber_impact'] == 'moderate_high' else
-                       4)
-                )
-            )
-
-            for cluster_id in ordered_clusters:
-                cluster_options = type_options[type_options['Cluster'] == cluster_id]
-                if not cluster_options.empty:
-                    possible_items.extend(cluster_options['food_name'].tolist())
-
-            unique_possible_items = list(dict.fromkeys(possible_items))
-
-            if unique_possible_items:
-                num_to_sample = min(num_alternatives_per_slot, len(unique_possible_items))
-                if num_to_sample > 0:
-                    selected_items = np.random.choice(unique_possible_items, num_to_sample, replace=False).tolist()
-                    stabilizing_recs.append(f"{food_type_needed}: {', '.join(selected_items)}")
-                    eligible_foods = eligible_foods[~eligible_foods['food_name'].isin(selected_items)]
-            else:
-                stabilizing_recs.append(f"Could not find {food_type_needed} options for stabilization.")
-
-        return stabilizing_recs
-
-
+        return "<br><br>".join(tips)

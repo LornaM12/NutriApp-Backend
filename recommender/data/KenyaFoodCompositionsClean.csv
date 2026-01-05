@@ -1,0 +1,240 @@
+food_name,Category,Group_Name,diabetes_score,hydration_score,tags,calories,water_g,protein_g,fat_g,carbohydrates_g,fiber_g,sodium_mg,potassium_mg,cholesterol_mg
+Aluru,Protein,Mixed dishes,28.336629933126122,65.93296648324163,"Protein, High Protein, High Sodium, High Potassium",195.0,65.9,11.3,14.2,5.2,0.6,761.0,302.0,49.0
+Amaranth,Starch,Cereals and cereal products,46.613921069982105,65.91295647823911,"Starch, High Fiber, High Potassium, Vegetarian",121.0,65.88,6.18,1.8,16.72,6.659999999999999,12.0,449.6,0.0
+Apple,Fruit,Fruits and fruit products,26.554111330884428,84.8424212106053,"Fruit, Hydrating, Vegetarian",56.0,84.8,0.3,0.05,12.3,2.3499999999999996,1.5,99.5,0.0
+Arrowroot,Starch,"Starchy roots, bananas and tubers",14.735801073749647,52.7930631982658,"Starch, High Potassium, Vegetarian",183.0,52.76666666666667,2.2,0.26666666666666666,42.13333333333333,0.9666666666666667,22.0,414.6666666666667,0.0
+Arrowroot Stew,Other,Mixed dishes,24.70566073278704,77.83891945972987,"Other, Hydrating, High Potassium, Vegetarian",91.0,77.8,1.9,2.3,14.9,1.8,250.0,431.0,0.0
+Ashir,Starch,Mixed dishes,20.142224733917303,68.23411705852926,Starch,125.0,68.2,2.7,0.9,25.8,1.2,128.0,39.0,2.0
+Avocado,Fruit,Fruits and fruit products,35.424319487614206,74.03701850925462,"Fruit, High Fiber, Hydrating, High Potassium, Vegetarian",185.0,74.0,1.6,19.6,0.0,4.0,7.0,281.0,0.0
+Banana,Starch,"Starchy roots, bananas and tubers",33.04841292267119,50.12506253126563,"Starch, High Fiber, High Potassium, Vegetarian",186.0,50.1,2.1266666666666665,0.8333333333333334,39.733333333333334,5.416666666666667,4.666666666666667,513.0,0.0
+Baobab fruit,Fruit,Fruits and fruit products,30.45587265705943,13.10655327663832,"Fruit, High Fiber, High Potassium, Vegetarian",315.0,13.1,2.3,0.4,72.2,6.8,56.0,1613.0,0.0
+Basic Mandazi,Starch,Mixed dishes,19.95384760290101,28.21410705352676,"Starch, High Potassium, Vegetarian",340.0,28.2,6.4,12.9,48.7,2.1,241.0,350.0,0.0
+Bean,Protein,Legumes and pulses,61.50984270509559,61.63081540770386,"Protein, High Protein, High Fiber, High Potassium, Vegetarian",131.0,61.6,12.8,0.4,14.6,9.1,3.0,490.0,0.0
+Bean Stew,Other,Mixed dishes,35.38664406141094,83.14157078539269,"Other, High Fiber, Hydrating, Vegetarian",63.0,83.1,3.5,1.4,7.2,3.7,165.0,125.0,0.0
+Bean Stew with Milk and Cream,Other,Mixed dishes,47.97965526985024,65.23261630815408,"Other, High Fiber, High Potassium",139.0,65.2,7.2,4.5,14.3,6.7,273.0,259.0,8.0
+Beans,Protein,Legumes and pulses,55.70747386267308,66.10805402701351,"Protein, High Fiber, High Potassium, Vegetarian",116.0,66.075,9.0395,0.678,14.319999999999999,8.28,23.95,404.75,0.0
+Beef,Protein,"Meats, poultry and eggs",39.378954849426734,56.49188230478877,"Protein, High Protein, Vegetarian",230.72727272727272,56.46363636363637,28.836363636363636,12.827272727272726,0.0,0.0,108.0,187.9090909090909,0.0
+Beef Stew,Protein,Mixed dishes,34.053875859470665,65.73286643321661,"Protein, High Protein, High Potassium",181.0,65.7,17.7,10.4,3.8,0.8,315.0,264.0,162.0
+Beet root,Starch,"Starchy roots, bananas and tubers",32.74779441775769,86.3765215941304,"Starch, High Fiber, Hydrating, Vegetarian",43.0,86.33333333333333,2.1233333333333335,0.10000000000000002,6.8,3.236666666666667,49.666666666666664,238.0,0.0
+Bhature,Starch,Mixed dishes,21.027597249693887,36.11805902951476,"Starch, High Sodium",337.0,36.1,5.9,18.5,35.9,1.7,518.0,109.0,11.0
+Biscuit,Starch,Cereals and cereal products,18.05359329377414,4.4022011005502755,"Starch, High Sodium",476.0,4.4,6.35,21.049999999999997,64.1,2.7,467.5,159.5,6.0
+Bitter gourd,Vegetable,Vegetables and vegetable products,35.64095318828294,89.04452226113057,"Vegetable, High Fiber, Hydrating, Vegetarian",34.0,89.0,1.6,0.25,4.4,3.9,15.0,163.5,0.0
+Black,Vegetable,Vegetables and vegetable products,37.79944114784465,89.31132232783057,"Vegetable, High Fiber, Hydrating, High Potassium, Vegetarian",29.0,89.26666666666665,3.5666666666666664,0.10000000000000002,1.2666666666666666,4.066666666666666,8.130434782608695,310.72463768115944,0.0
+Black Bean Stew,Other,Mixed dishes,31.741546576245643,83.64182091045522,"Other, Hydrating, Vegetarian",62.0,83.6,3.6,1.3,7.7,2.8,164.0,175.0,0.0
+Boiled Rice,Starch,Mixed dishes,15.748328152962232,67.13356678339169,"Starch, Vegetarian",138.0,67.1,2.7,2.0,27.2,0.2,216.0,21.0,0.0
+Boiled beans,Other,Mixed dishes,42.14467363662052,74.93746873436719,"Other, High Fiber, Hydrating, Vegetarian",93.0,74.9,5.2,2.3,10.2,5.3,355.0,229.0,0.0
+Bread,Starch,Cereals and cereal products,26.920661831653636,32.149408037352,"Starch, High Fiber, High Sodium, Vegetarian",287.3333333333333,32.13333333333333,8.0,5.933333333333334,48.76666666666667,3.5,427.0,179.33333333333334,0.0
+Breakfast cereal,Starch,Cereals and cereal products,14.500329659979275,3.5017508754377187,"Starch, High Sodium, Vegetarian",373.0,3.5,7.5,0.7,83.0,2.6,1090.0,110.0,0.0
+Broccoli,Vegetable,Vegetables and vegetable products,35.490251483469905,89.54477238619309,"Vegetable, High Fiber, Hydrating, High Potassium, Vegetarian",32.666666666666664,89.5,3.1666666666666665,0.3,2.566666666666667,3.533333333333333,18.333333333333332,254.0,0.0
+Brown Chapati,Starch,Mixed dishes,42.49788075727607,20.51025512756378,"Starch, High Fiber, Vegetarian",413.0,20.5,7.3,22.9,40.9,7.2,120.0,213.0,0.0
+Bulrush Millet Porridge,Starch,Mixed dishes,23.824997645285865,79.23961980990495,"Starch, Hydrating, Vegetarian",83.0,79.2,2.0,1.0,15.7,1.6,5.0,55.0,0.0
+Buns,Starch,Cereals and cereal products,22.774795139870022,29.014507253626814,Starch,306.0,29.0,7.0,6.8,52.8,2.9,100.0,210.0,1.5
+Butter,Protein,Milk and dairy products,17.330696053499107,16.258129064532266,Protein,737.0,16.25,1.1,81.3,0.3,0.0,393.0,19.0,167.0
+Cabbage,Vegetable,Vegetables and vegetable products,29.242409971429467,93.9580901561892,"Vegetable, Hydrating, Vegetarian",18.22222222222222,93.91111111111111,1.1,0.2,1.911111111111111,2.2444444444444445,21.22222222222222,221.11111111111111,0.0
+Cake,Starch,Cereals and cereal products,17.85501240149446,21.677505419376356,Starch,379.0,21.666666666666668,6.833333333333333,15.1,53.03333333333333,1.8,200.0,196.0,134.0
+Cake or cupcake,Starch,Cereals and cereal products,16.313459546011117,25.912956478239117,"Starch, High Sodium",363.0,25.9,7.1,15.3,48.8,1.1,480.0,110.0,82.5
+Cakes,Starch,Cereals and cereal products,19.61476876707168,15.70785392696348,"Starch, High Protein",412.0,15.7,13.0,16.8,51.5,1.1,250.0,147.0,31.1
+Camel Meat,Protein,"Meats, poultry and eggs",33.56880474710371,34.517258629314654,"Protein, High Protein, High Potassium",359.0,34.5,26.6,21.25,15.4,0.0,197.5,366.0,72.0
+Capsicum,Vegetable,Vegetables and vegetable products,28.98182160685693,92.61297315324329,"Vegetable, Hydrating, Vegetarian",24.666666666666668,92.56666666666666,1.6333333333333335,0.16666666666666666,3.0749999999999997,2.1416666666666666,1.9166666666666667,174.33333333333334,0.0
+Carrot,Vegetable,Vegetables and vegetable products,32.7352359423566,90.31182257795564,"Vegetable, High Fiber, Hydrating, Vegetarian",31.0,90.26666666666667,0.7666666666666666,0.2333333333333333,4.666666666666667,3.3333333333333335,31.0,210.66666666666666,0.0
+Cassava,Starch,"Starchy roots, bananas and tubers",28.680418197230857,67.75387693846923,"Starch, High Fiber, Vegetarian",120.0,67.72,1.1800000000000002,0.2,26.560000000000002,3.6399999999999997,2.4,191.2,0.0
+Cassava Porridge,Other,Mixed dishes,19.633606480173306,92.64632316158078,"Other, Hydrating, Vegetarian",28.0,92.6,0.1,0.0,6.8,0.3,5.0,39.0,0.0
+Cassava Ugali,Starch,Mixed dishes,18.512762550626356,51.62581290645323,"Starch, High Potassium, Vegetarian",186.0,51.6,1.1,0.3,43.7,2.2,20.0,326.0,0.0
+Cassava and Red Sorghum Ugali,Starch,Mixed dishes,29.132523311669967,69.63481740870434,"Starch, High Fiber, Vegetarian",116.0,69.6,2.1,0.8,23.4,3.4,9.0,163.0,0.0
+Cauliflower,Vegetable,Vegetables and vegetable products,31.967599133465196,93.24662331165582,"Vegetable, Hydrating, Vegetarian",19.0,93.2,2.0,0.2,0.9,2.8,26.5,219.0,0.0
+Celery,Vegetable,Vegetables and vegetable products,25.117735706885185,90.44522261130565,"Vegetable, Hydrating, Vegetarian",28.5,90.4,0.6499999999999999,0.1,5.55,1.5,25.5,207.5,0.0
+Chaas,Other,Mixed dishes,19.34162192709805,86.64332166083041,"Other, Hydrating",60.0,86.6,2.0,2.2,8.0,0.0,262.0,93.0,7.0
+Chai ya Maziwa,Other,Mixed dishes,19.43110106433079,92.14607303651825,"Other, Hydrating",36.0,92.1,1.1,1.2,5.4,0.0,15.0,45.0,307.0
+Cheese,Protein,Milk and dairy products,28.52657687356755,76.03801900950475,"Protein, High Protein, Hydrating",111.33333333333333,76.0,14.133333333333333,4.166666666666667,4.366666666666666,0.0,363.6666666666667,116.66666666666667,9.0
+Chick Peas Curry,Other,Mixed dishes,50.53687482339645,69.23461730865432,"Other, High Fiber, High Sodium, High Potassium, Vegetarian",126.0,69.2,6.0,5.1,10.3,7.3,426.0,329.0,0.0
+Chicken,Protein,"Meats, poultry and eggs",35.87406988791561,55.477738869434724,"Protein, High Protein, Vegetarian",227.0,55.45,23.85,14.649999999999999,0.0,0.0,52.0,116.5,0.0
+Coconut,Beverage,Beverages,19.421682207779973,93.94697348674337,"Beverage, Hydrating, Vegetarian",23.0,93.9,0.8,0.1,4.8,0.0,5.0,130.0,0.0
+Coffee,Beverage,Beverages,98.19628897051899,3.1015507753876936,"Beverage, High Protein, High Fiber, High Potassium, Vegetarian",311.0,3.1,16.1,1.0,50.4,20.0,83.0,3690.0,0.0
+Courgette,Vegetable,Vegetables and vegetable products,24.651502307619857,94.5472736368184,"Vegetable, Hydrating, Vegetarian",20.0,94.5,0.95,0.3,2.65,1.15,1.0,146.0,0.0
+Cowpea,Vegetable,Vegetables and vegetable products,39.656525697780296,89.41137235284309,"Vegetable, High Fiber, Hydrating, High Potassium, Vegetarian",28.0,89.36666666666667,3.1666666666666665,0.4000000000000001,0.6333333333333333,4.633333333333334,25.333333333333332,358.0,0.0
+Cowpeas,Protein,Legumes and pulses,48.73114546751168,61.80232973629671,"Protein, High Fiber, High Potassium, Vegetarian",135.14285714285714,61.771428571428565,9.299999999999999,0.5285714285714286,19.914285714285715,6.842857142857143,9.0,547.1428571428571,0.0
+Cucumber,Vegetable,Vegetables and vegetable products,25.74173495337666,96.24812406203101,"Vegetable, Hydrating, Vegetarian",11.0,96.2,0.6,0.1,1.3,1.4,22.0,136.0,0.0
+Custard apple,Fruit,Fruits and fruit products,37.275124799849294,75.03751875937968,"Fruit, High Fiber, Hydrating, High Potassium, Vegetarian",92.0,75.0,1.7,0.7,17.0,5.1,3.0,278.0,0.0
+Date,Fruit,Fruits and fruit products,31.204671752849205,38.71935967983992,"Fruit, High Fiber, High Potassium, Vegetarian",228.5,38.7,2.0,0.15000000000000002,52.0,5.75,10.5,570.0,0.0
+Doumpalm fruit,Fruit,Fruits and fruit products,66.27107469153245,17.608804402201102,"Fruit, High Fiber, High Potassium, Vegetarian",280.0,17.6,2.8,0.7,58.3,14.8,0.47,862.0,0.0
+Drinking chocolate,Beverage,Beverages,14.439107092398984,1.0005002501250626,"Beverage, High Potassium, Vegetarian",541.0,1.0,4.4,30.9,60.4,2.0,120.0,591.0,0.0
+Drop Scones,Starch,Mixed dishes,19.793727041537156,23.51175587793897,Starch,449.0,23.5,7.1,29.8,37.4,1.4,116.0,112.0,59.0
+Egg,Protein,"Meats, poultry and eggs",28.67099934068004,66.53326663331666,"Protein, High Protein, Vegetarian",205.66666666666666,66.5,14.4,15.166666666666666,2.6666666666666665,0.0,120.66666666666667,118.33333333333333,0.0
+Egg Toast,Protein,Mixed dishes,27.58312140906094,40.32016008004002,"Protein, High Protein, High Sodium",280.0,40.3,12.5,10.7,32.4,1.9,587.0,152.0,249.0
+Eggplant / Brinjal,Vegetable,Vegetables and vegetable products,37.600075350852414,89.84492246123061,"Vegetable, High Fiber, Hydrating, Vegetarian",29.666666666666668,89.8,1.3333333333333333,0.3333333333333333,3.0666666666666664,4.433333333333334,3.0,186.0,0.0
+Enriched Mandazi,Starch,Mixed dishes,20.73561269661863,23.51175587793897,Starch,379.0,23.5,7.6,16.1,49.9,2.2,80.0,105.0,23.0
+Enriched Mashed Bananas,Other,Mixed dishes,26.56588490157295,72.93646823411706,"Other, Hydrating",136.0,72.9,0.1,7.8,14.3,2.6,276.0,207.0,2.0
+Enriched Mashed Potatoes,Starch,Mixed dishes,22.068380898558914,70.43521760880441,"Starch, Hydrating, High Potassium",141.0,70.4,2.0,6.2,18.6,1.4,209.0,529.0,2.0
+Enriched Matoke,Starch,Mixed dishes,30.356974663275878,73.7368684342171,"Starch, High Fiber, Hydrating, High Potassium, Vegetarian",111.0,73.7,2.4,3.5,15.8,3.2,220.0,256.0,0.0
+Finger Millet Porridge,Other,Mixed dishes,26.970895733257983,88.84442221110554,"Other, Hydrating, Vegetarian",40.0,88.8,0.7,0.2,7.8,2.1,4.0,52.0,0.0
+Finger Millet Ugali,Starch,Mixed dishes,52.26052557219554,65.13256628314157,"Starch, High Fiber, Vegetarian",120.0,65.1,2.9,0.7,21.0,8.9,3.0,212.0,0.0
+Finger Millet and Sorghum Porridge,Other,Mixed dishes,28.576810775171896,82.34117058529264,"Other, Hydrating",74.0,82.3,2.7,2.2,9.7,2.3,23.0,130.0,8.0
+Fiqe,Starch,Mixed dishes,48.20099839879439,52.526263131565784,"Starch, High Fiber, High Sodium, High Potassium",192.0,52.5,7.2,5.8,24.2,7.4,495.0,315.0,13.0
+Fresh blood and Fresh milk,Other,Mixed dishes,22.37449373646039,82.54127063531766,"Other, Hydrating, Vegetarian",81.0,82.5,6.1,3.1,7.0,0.0,148.0,161.0,0.0
+Fried Egg,Protein,Mixed dishes,27.71027597249694,64.23211605802902,"Protein, High Protein, High Sodium",223.0,64.2,13.1,17.9,2.5,0.0,717.0,132.0,431.0
+Fried tilapia,Protein,Mixed dishes,50.24959969859659,23.51175587793897,"Protein, High Protein, High Potassium, Vegetarian",437.0,23.5,45.7,28.1,0.3,0.0,149.0,349.0,0.0
+Ghee,Protein,Milk and dairy products,16.077988132240744,0.0,Protein,898.0,0.0,0.3,99.9,0.0,0.0,2.0,5.0,290.0
+Githeri,Starch,Mixed dishes,57.68107751718943,57.59546439886609,"Starch, High Fiber, High Potassium, Vegetarian",174.0,57.56666666666666,7.133333333333333,6.333333333333333,17.533333333333335,9.366666666666667,333.6666666666667,302.6666666666667,0.0
+Goat,Protein,"Meats, poultry and eggs",39.387774324197046,60.05002501250626,"Protein, High Protein, Vegetarian",181.4,60.02,28.52,7.459999999999999,0.0,0.0,127.4,221.8,0.0
+Grapes,Fruit,Fruits and fruit products,24.423095036262595,80.74037018509254,"Fruit, Hydrating, Vegetarian",71.0,80.7,0.6,0.1,16.0,2.0,3.0,171.0,0.0
+Green Gram Stew,Other,Mixed dishes,37.85438447772441,74.43721860930465,"Other, High Fiber, Hydrating, Vegetarian",109.0,74.4,6.3,4.2,9.3,4.0,243.0,184.0,0.0
+Green Maize,Starch,Cereals and cereal products,100.0,41.720860430215104,"Starch, High Fiber, Vegetarian",203.0,41.7,5.3,3.2,27.8,20.9,10.0,244.0,0.0
+Green maize,Starch,Cereals and cereal products,77.4277102759725,58.02901450725363,"Starch, High Fiber, Vegetarian",146.0,58.0,3.8,2.3,20.0,15.0,6.0,141.0,0.0
+Groundnut Sauce,Protein,Mixed dishes,37.92973533013092,50.22511255627814,"Protein, High Protein, High Fiber, High Sodium, High Potassium",298.0,50.2,10.6,23.4,9.6,3.5,492.0,366.0,9.0
+Guava,Fruit,Fruits and fruit products,79.04304417443724,80.74037018509254,"Fruit, High Fiber, Hydrating, High Potassium, Vegetarian",48.0,80.7,1.1,1.1,0.9,15.5,1.0,334.0,0.0
+Guinea fowl,Protein,"Meats, poultry and eggs",34.02561928981822,75.23761880940471,"Protein, High Protein, Hydrating",112.0,75.2,20.5,3.2,0.1,0.0,58.0,240.0,87.0
+Gurdo,Starch,Mixed dishes,37.039653386078925,46.92346173086543,"Starch, High Fiber, High Potassium",242.0,46.9,6.6,9.6,29.7,5.1,268.0,264.0,24.0
+Hard boiled eggs,Protein,Mixed dishes,27.97871338419516,75.43771885942971,"Protein, High Protein, Hydrating",136.0,75.4,12.9,8.3,2.5,0.0,150.0,122.0,426.0
+Honey,Sweet,Sugar and sweetened products,0.0,19.209604802401202,"Sweet, Vegetarian",322.0,19.2,0.4,0.0,80.1,0.0,17.0,74.0,0.0
+Hydrabadi Biryani,Protein,Mixed dishes,23.533013092210606,59.329664832416206,"Protein, High Sodium",195.0,59.3,8.2,8.3,21.4,0.9,457.0,187.0,19.0
+Ingokho,Protein,Mixed dishes,40.939059998116235,33.26663331665833,"Protein, High Protein, High Sodium, High Potassium",371.5,33.25,31.450000000000003,23.799999999999997,7.75,0.55,707.0,310.0,46.5
+Jackfruit,Fruit,Fruits and fruit products,27.017990016012057,73.23661830915458,"Fruit, Hydrating, High Potassium, Vegetarian",95.0,73.2,1.4,0.2,20.5,2.8,2.0,279.0,0.0
+Jute Mallow,Other,Mixed dishes,28.953565037204488,85.34267133566783,"Other, Hydrating",59.0,85.3,3.4,2.3,5.4,2.0,180.0,197.0,9.0
+Jute mallow,Vegetable,Vegetables and vegetable products,57.60101723650748,80.67367016841754,"Vegetable, High Fiber, Hydrating, High Potassium, Vegetarian",49.333333333333336,80.63333333333334,5.066666666666666,0.20000000000000004,2.3000000000000003,9.066666666666666,18.333333333333332,260.3333333333333,0.0
+Kaimati,Starch,Mixed dishes,15.296223038523124,18.809404702351177,"Starch, Vegetarian",429.0,18.8,4.6,21.8,52.8,1.6,4.0,81.0,0.0
+Kale,Vegetable,Vegetables and vegetable products,37.43838498006342,90.42854760713689,"Vegetable, High Fiber, Hydrating, High Potassium, Vegetarian",26.5,90.38333333333333,2.9499999999999997,0.43333333333333335,0.6833333333333332,4.083333333333333,32.0,323.6666666666667,0.0
+Kimanga,Starch,Mixed dishes,44.44758406329472,62.88144072036018,"Starch, High Fiber, High Potassium, Vegetarian",129.0,62.85,5.95,0.7,21.5,6.45,380.5,394.5,0.0
+Kimito,Starch,Mixed dishes,40.05368748233964,64.1320660330165,"Starch, High Fiber, High Potassium, Vegetarian",127.0,64.1,5.7,0.8,21.6,5.4,359.0,557.0,0.0
+Kitojo,Other,Mixed dishes,39.50268437411699,74.63731865932965,"Other, High Fiber, Hydrating, High Sodium, High Potassium, Vegetarian",144.0,74.6,3.9,12.7,1.4,4.6,648.0,500.0,0.0
+Lamb,Protein,"Meats, poultry and eggs",37.74763743681518,50.025012506253134,"Protein, High Protein, High Potassium, Vegetarian",291.6666666666667,50.0,26.933333333333334,20.433333333333334,0.0,0.0,63.0,256.0,0.0
+Leeks,Vegetable,Vegetables and vegetable products,32.26900254309127,82.99149574787393,"Vegetable, High Fiber, Hydrating, Vegetarian",60.0,82.95,1.85,0.45,10.45,3.4000000000000004,14.0,156.0,0.0
+Lemon,Fruit,Fruits and fruit products,28.49910520862767,88.29414707353676,"Fruit, Hydrating, Vegetarian",42.0,88.25,0.71,0.2,8.1,2.5,2.0,120.0,0.0
+Lemon peel,Fruit,Fruits and fruit products,60.84581331826316,81.6408204102051,"Fruit, High Fiber, Hydrating, Vegetarian",52.0,81.6,1.5,0.3,5.4,10.6,6.0,160.0,0.0
+Lentil Stew,Other,Mixed dishes,40.00188377131016,72.83641820910455,"Other, High Fiber, Hydrating, Vegetarian",108.0,72.8,7.1,3.0,11.1,4.5,275.0,183.0,0.0
+Lentils,Protein,Legumes and pulses,53.97193180747857,59.9399699849925,"Protein, High Protein, High Fiber, High Potassium, Vegetarian",141.6,59.910000000000004,12.639999999999999,0.27999999999999997,18.38,7.4799999999999995,6.2,250.2,0.0
+Lettuce,Vegetable,Vegetables and vegetable products,26.82019402844495,94.44722361180591,"Vegetable, Hydrating, Vegetarian",17.0,94.4,1.2,0.2,1.9,1.6,20.0,201.0,0.0
+Lime,Fruit,Fruits and fruit products,35.45493077140435,88.74437218609303,"Fruit, High Fiber, Hydrating, Vegetarian",36.0,88.69999999999999,0.7,0.2,5.85,4.1,3.0,150.0,0.0
+Loquat,Fruit,Fruits and fruit products,36.10954130168598,84.64232116058028,"Fruit, High Fiber, Hydrating, Vegetarian",51.0,84.6,0.62,0.2,9.5,4.51,2.0,180.0,0.0
+Mahamri,Starch,Mixed dishes,19.8219836111896,22.811405702851424,"Starch, Vegetarian",413.0,22.8,6.0,22.1,46.6,2.1,4.0,101.0,0.0
+Maize,Starch,Cereals and cereal products,29.641141565413953,62.58129064532265,"Starch, High Fiber, Vegetarian",146.33333333333334,62.54999999999999,3.3666666666666667,1.3666666666666665,28.400000000000002,3.633333333333333,5.333333333333333,87.33333333333333,0.0
+Maize Porridge,Other,Mixed dishes,23.31166996326646,87.54377188594297,"Other, Hydrating",52.0,87.5,1.5,1.1,8.5,1.1,10.0,50.0,2.0
+Malesele,Protein,Mixed dishes,33.022511067156444,37.51875937968984,"Protein, High Protein, High Sodium, High Potassium",335.0,37.5,20.0,21.2,15.4,1.0,1070.0,831.0,250.0
+Mango,Fruit,Fruits and fruit products,26.843741169821982,84.89244622311155,"Fruit, Hydrating, Vegetarian",54.5,84.85,0.7,0.2,11.45,2.3,13.5,166.5,0.0
+Mashed Bananas,Starch,Mixed dishes,28.590939059998117,76.93846923461732,"Starch, Hydrating, Vegetarian",81.0,76.9,1.2,0.3,16.9,3.0,348.0,245.0,0.0
+Mashed Cassava and Pigeon Peas,Starch,Mixed dishes,36.46510313647923,46.823411705852926,"Starch, High Fiber, High Potassium, Vegetarian",194.0,46.8,4.8,0.6,39.6,5.8,303.0,469.0,0.0
+Mashed Potato and Bananas,Starch,Mixed dishes,26.08081378920599,62.131065532766385,"Starch, High Sodium, High Potassium, Vegetarian",179.0,62.1,2.3,8.5,22.1,2.6,544.0,551.0,0.0
+Mashed Potatoes,Starch,Mixed dishes,22.79834228124706,71.03551775887944,"Starch, Hydrating, High Potassium, Vegetarian",106.0,71.0,2.5,0.2,22.8,1.7,330.0,650.0,0.0
+Mashed Pumpkin and Black Nightshade,Other,Mixed dishes,41.67844023735519,80.84042021010505,"Other, High Fiber, Hydrating, High Sodium, High Potassium, Vegetarian",67.0,80.8,3.8,2.4,4.9,5.1,411.0,456.0,0.0
+Matoke,Other,Mixed dishes,27.85155882075916,72.93646823411706,"Other, Hydrating, High Potassium",118.0,72.9,6.0,4.1,13.3,1.8,381.0,380.0,14.0
+Mbuboyi,Protein,Mixed dishes,25.807666949232367,76.23811905952977,"Protein, High Protein, Hydrating",97.0,76.2,11.5,2.0,8.3,0.0,361.0,199.0,136.0
+Meat Samosa,Protein,Mixed dishes,34.162192709805026,13.906953476738368,"Protein, High Protein, High Fiber, High Potassium",443.0,13.9,18.8,22.2,40.5,3.1,175.0,302.0,40.0
+Milk,Protein,Milk and dairy products,20.835064740787526,69.50534090574699,"Protein, High Potassium",140.8235294117647,69.47058823529412,7.464705882352941,5.0058823529411764,16.435294117647057,0.0,116.29411764705883,355.7647058823529,14.235294117647058
+Minced Meat Balls,Protein,Mixed dishes,23.90034849769238,65.93296648324163,Protein,157.0,65.9,8.1,5.4,18.6,0.8,321.0,133.0,19.0
+Mseto wa Maharagwe,Starch,Mixed dishes,32.39615710652727,58.229114557278635,"Starch, High Fiber, Vegetarian",193.0,58.2,5.0,7.9,23.5,3.8,356.0,172.0,0.0
+Mseto wa Ndengu,Starch,Mixed dishes,23.895639069416973,74.53726863431716,"Starch, Hydrating, Vegetarian",103.0,74.5,3.7,1.3,18.4,1.5,59.0,101.0,0.0
+Mseto wa Viazi,Starch,Mixed dishes,18.08891400583969,73.7368684342171,"Starch, Hydrating",111.0,73.7,2.1,1.9,21.1,0.5,131.0,92.0,65.0
+Mukimo,Starch,Mixed dishes,41.01205613638504,67.98399199599798,"Starch, High Fiber, High Potassium, Vegetarian",113.5,67.94999999999999,4.0,0.85,19.5,5.8,301.0,420.0,0.0
+Mukimo wa Njahi,Protein,Mixed dishes,46.138268814165954,55.727863931965985,"Protein, High Fiber, High Potassium, Vegetarian",157.5,55.7,7.95,0.6,26.55,6.85,251.0,521.5,0.0
+Mulberry,Fruit,Fruits and fruit products,28.54855420551945,89.54477238619309,"Fruit, Hydrating, High Potassium, Vegetarian",35.0,89.5,1.6,0.2,5.6,2.2,6.0,310.0,0.0
+Munono,Protein,Mixed dishes,30.201563530187435,23.911955977988992,"Protein, High Protein",549.0,23.9,19.5,50.3,4.6,0.0,286.0,245.0,55.0
+Mushenye,Starch,Mixed dishes,54.671752849204104,60.43021510755378,"Starch, High Fiber, High Potassium, Vegetarian",153.0,60.4,7.1,4.1,17.6,8.6,242.0,340.0,0.0
+Mushroom,Vegetable,Vegetables and vegetable products,69.14853536780636,69.60146740036684,"Vegetable, High Fiber, Vegetarian",98.16666666666667,69.56666666666666,4.8500000000000005,1.05,11.200000000000001,12.233333333333334,55.666666666666664,228.66666666666666,0.0
+Muthokoi,Starch,Mixed dishes,36.62051426956767,62.73136568284142,"Starch, High Fiber",161.0,62.7,5.0,5.9,19.8,4.6,325.0,185.0,55.0
+Nchenga/ Nzenga,Starch,Mixed dishes,23.4670810963549,69.53476738369184,"Starch, High Sodium, Vegetarian",129.0,69.5,2.2,3.9,20.3,1.8,552.0,85.0,0.0
+Ndoto,Starch,Mixed dishes,46.21832909484788,56.42821410705352,"Starch, High Fiber, Vegetarian",193.0,56.4,5.7,7.9,21.3,7.0,270.0,211.0,0.0
+Nile tilapia,Protein,Fish and sea foods,33.578223603654514,77.63881940970484,"Protein, High Protein, Hydrating",92.0,77.6,19.7,1.5,0.0,0.0,64.0,151.0,63.0
+Nyenyi,Starch,Mixed dishes,44.79608175567486,66.43321660830416,"Starch, High Fiber, High Potassium, Vegetarian",125.0,66.4,4.9,2.3,17.8,6.5,273.0,479.0,0.0
+Oat Porridge,Starch,Mixed dishes,23.03381369501743,79.33966983491746,"Starch, Hydrating",86.0,79.3,1.9,1.6,15.3,1.4,14.0,69.0,4.0
+Oat bran,Starch,Cereals and cereal products,74.33361589902987,5.60280140070035,"Starch, High Protein, High Fiber, High Potassium, Vegetarian",373.0,5.6,10.7,7.5,57.8,15.5,12.0,362.0,0.0
+Oatmeal,Other,Mixed dishes,32.37260996515023,78.33916958479239,"Other, High Fiber, Hydrating, Vegetarian",83.0,78.3,2.4,1.7,12.9,3.5,209.0,82.0,0.0
+Okra,Vegetable,Vegetables and vegetable products,35.09308969891055,89.77822244455561,"Vegetable, High Fiber, Hydrating, Vegetarian",32.0,89.73333333333333,2.0,0.20000000000000004,4.566666666666666,3.6999999999999997,6.666666666666667,240.33333333333334,0.0
+Okra Meat Dish,Protein,Mixed dishes,29.89545069228596,80.1400700350175,"Protein, Hydrating, High Sodium",94.0,80.1,8.2,5.1,3.2,1.3,559.0,199.0,23.0
+Omelette,Other,Mixed dishes,28.944146180653668,77.63881940970484,"Other, Hydrating",121.0,77.6,6.6,7.8,5.3,1.5,189.0,169.0,182.0
+Omena Stew,Protein,Mixed dishes,33.65828388433644,32.816408204102046,"Protein, High Protein, High Potassium",450.0,32.8,19.2,39.3,4.6,0.8,90.0,281.0,305.0
+Orange,Fruit,Fruits and fruit products,27.512479984929833,91.14557278639319,"Fruit, Hydrating, Vegetarian",30.0,91.1,0.65,0.15000000000000002,5.55,2.1,3.5,155.5,0.0
+Pan Fried Arrowroots,Starch,Mixed dishes,25.482716398229254,56.92846423211605,"Starch, High Sodium, High Potassium, Vegetarian",181.0,56.9,4.1,5.2,28.3,2.5,616.0,696.0,0.0
+Pan Fried Sweet Potatoes,Starch,Mixed dishes,34.774418385607994,51.72586293146574,"Starch, High Fiber, High Potassium, Vegetarian",248.0,51.7,3.1,13.9,25.3,4.9,16.0,325.0,0.0
+Pancakes,Protein,Mixed dishes,22.261467457850618,41.52076038019009,Protein,270.0,41.5,8.3,8.5,39.2,1.7,37.0,138.0,54.0
+Papaya,Fruit,Fruits and fruit products,27.154563435998867,89.84492246123061,"Fruit, Hydrating, Vegetarian",36.0,89.8,0.6,0.3,6.8,2.1,4.0,140.0,0.0
+Passion Fruit,Fruit,Fruits and fruit products,15.616464161250823,75.53776888444222,"Fruit, Hydrating, High Potassium, Vegetarian",96.0,75.5,0.8,0.1,22.9,0.2,10.0,252.0,0.0
+Passion fruit,Fruit,Fruits and fruit products,65.51756616746727,75.73786893446723,"Fruit, High Fiber, Hydrating, Vegetarian",75.0,75.7,2.4,0.9,8.7,11.7,19.0,200.0,0.0
+Pasta,Starch,Cereals and cereal products,21.57389092964114,65.68284142071036,"Starch, Vegetarian",136.0,65.65,5.0,0.55,27.25,1.25,3.5,43.75,0.0
+Peach,Fruit,Fruits and fruit products,25.850051803711025,86.74337168584292,"Fruit, Hydrating, Vegetarian",48.0,86.7,1.0,0.1,9.9,1.9,2.0,203.0,0.0
+Pear,Fruit,Fruits and fruit products,34.02090986154281,86.04302151075538,"Fruit, High Fiber, Hydrating, Vegetarian",48.0,86.0,0.4,0.2,9.1,4.0,1.0,96.0,0.0
+Peas and Brinjal Curry,Other,Mixed dishes,44.108505227465386,72.53626813406703,"Other, High Fiber, Hydrating, High Sodium, High Potassium, Vegetarian",131.0,72.5,4.2,8.5,6.6,5.8,520.0,253.0,0.0
+Pigeon Peas Stew,Other,Mixed dishes,45.394179146651595,70.93546773386694,"Other, High Fiber, Hydrating, High Potassium, Vegetarian",118.0,70.9,5.7,4.4,11.0,6.1,281.0,260.0,0.0
+Pilau,Starch,Mixed dishes,22.529904869548837,56.32816408204102,"Starch, High Potassium",213.0,56.3,6.9,9.4,24.8,1.1,349.0,285.0,12.0
+Pineapple,Fruit,Fruits and fruit products,22.609965150230764,82.84142071035518,"Fruit, Hydrating, Vegetarian",67.0,82.8,0.39,0.4,14.649999999999999,1.5,3.5,111.5,0.0
+Plum,Fruit,Fruits and fruit products,26.043138363002733,86.94347173586794,"Fruit, Hydrating, Vegetarian",47.0,86.9,0.7,0.1,9.9,2.0,1.0,158.0,0.0
+Pomegranate,Fruit,Fruits and fruit products,43.36441555995102,78.13906953476739,"Fruit, High Fiber, Hydrating, Vegetarian",74.0,78.1,1.6,0.2,13.3,6.4,4.0,172.0,0.0
+Pork,Protein,"Meats, poultry and eggs",38.19110859941603,43.37168584292145,"Protein, High Protein, High Potassium, Vegetarian",365.0,43.349999999999994,28.05,28.1,0.0,0.0,57.5,251.0,0.0
+Potato,Starch,"Starchy roots, bananas and tubers",22.71043295343945,71.93596798399199,"Starch, Hydrating, High Potassium, Vegetarian",105.66666666666667,71.89999999999999,2.433333333333333,0.13333333333333333,22.866666666666664,1.6933333333333334,5.82,573.3333333333334,0.0
+Potato Bhajia,Protein,Mixed dishes,34.43063012150325,15.107553776888444,"Protein, High Fiber, High Sodium, High Potassium, Vegetarian",471.0,15.1,8.6,31.0,37.1,4.8,587.0,783.0,0.0
+Potato Chips,Starch,Mixed dishes,24.705660732787035,32.11605802901451,"Starch, High Fiber, High Potassium, Vegetarian",326.0,32.1,4.8,13.6,44.4,3.3,13.0,1260.0,0.0
+Potato Curry,Starch,Mixed dishes,25.699350098897995,69.03451725862931,"Starch, High Sodium, High Potassium, Vegetarian",145.0,69.0,2.2,7.0,17.3,2.2,537.0,475.0,0.0
+Prawns,Protein,Fish and sea foods,33.379250259018555,71.51075537768884,"Protein, High Protein, Hydrating, High Potassium",113.0,71.475,21.049999999999997,1.25,4.475,0.0,201.5,257.75,48.75
+Pumpkin,Vegetable,Vegetables and vegetable products,29.922922357225833,89.27797231949309,"Vegetable, Hydrating, Vegetarian",33.166666666666664,89.23333333333333,2.5833333333333335,0.43333333333333335,3.6,2.25,11.166666666666666,228.16666666666666,0.0
+Pumpkin Leaves,Other,Mixed dishes,26.598850899500803,80.84042021010505,"Other, Hydrating",99.0,80.8,3.2,6.7,5.5,1.5,332.0,236.0,6.0
+Pumpkins with Peanut Butter,Other,Mixed dishes,30.663087501177362,82.74137068534267,"Other, Hydrating, Vegetarian",86.0,82.7,2.6,5.5,5.4,2.6,196.0,195.0,0.0
+Qanchibelo,Protein,Mixed dishes,29.35857586888952,68.63431715857928,Protein,133.0,68.6,9.6,3.1,15.7,1.7,225.0,169.0,23.0
+"Qita  ""Maize & wheat flour pancake""",Starch,Mixed dishes,24.06988791560704,44.32216108054027,Starch,241.0,44.3,5.1,5.6,41.2,2.8,158.0,105.0,8.0
+Rabbit meat,Protein,"Meats, poultry and eggs",41.65960252425356,56.92846423211605,"Protein, High Protein, High Potassium, Vegetarian",183.5,56.9,31.75,6.3,0.0,0.0,49.0,317.5,0.0
+Radish,Starch,"Starchy roots, bananas and tubers",29.269096731656774,94.11372352843087,"Starch, Hydrating, Vegetarian",17.0,94.06666666666666,0.8333333333333334,0.18666666666666668,1.866666666666667,2.3000000000000003,27.75666666666667,181.66666666666666,0.0
+Raspberry,Fruit,Fruits and fruit products,41.15098427050956,83.24162081040521,"Fruit, High Fiber, Hydrating, Vegetarian",54.0,83.2,1.4,0.2,8.9,5.6,1.0,156.0,0.0
+Red Sorghum,Starch,Mixed dishes,27.58312140906094,61.030515257628814,"Starch, High Fiber, Vegetarian",150.0,61.0,1.9,0.7,32.1,3.6,5.0,92.0,0.0
+Refined Maize Flour Ugali,Starch,Mixed dishes,31.38363002731469,62.83141570785392,"Starch, High Fiber, Vegetarian",148.0,62.8,3.4,1.9,27.3,4.0,8.0,97.0,0.0
+Rice,Starch,Cereals and cereal products,16.288342595208942,50.69201267300316,"Starch, Vegetarian",196.66666666666666,50.666666666666664,3.6666666666666665,0.5333333333333333,43.63333333333333,1.2,4.666666666666667,70.0,0.0
+Rice Flour Porridge,Other,Mixed dishes,18.654045398888574,87.54377188594297,"Other, Hydrating, Vegetarian",56.0,87.5,0.6,1.3,10.2,0.2,5.0,26.0,0.0
+Rice with Milk,Starch,Mixed dishes,16.417066968070074,61.53076538269134,"Starch, High Sodium",176.0,61.5,3.9,5.7,27.2,0.2,419.0,73.0,18.0
+Rotli,Starch,Mixed dishes,45.29528115286804,21.610805402701352,"Starch, High Fiber",374.0,21.6,8.0,16.7,43.8,7.9,354.0,234.0,28.0
+Saget,Other,Mixed dishes,37.00197795987567,83.04152076038018,"Other, High Fiber, Hydrating",60.0,83.0,4.3,1.9,4.5,3.8,174.0,244.0,7.0
+Sausage,Protein,"Meats, poultry and eggs",34.23754356221155,48.924462231115555,"Protein, High Protein, High Sodium",318.6666666666667,48.9,13.700000000000001,28.866666666666664,0.26666666666666666,1.5833333333333333,889.3333333333334,164.5,8.0
+Scone,Starch,Cereals and cereal products,19.93030046152397,21.010505252626313,"Starch, High Sodium",375.0,21.0,7.5,15.0,51.4,2.1,800.0,128.0,11.0
+Semolina,Starch,Cereals and cereal products,29.184327022699446,11.805902951475739,"Starch, High Protein, High Fiber, Vegetarian",345.0,11.8,10.9,1.1,70.5,4.9,2.0,196.0,0.0
+Siro,Starch,Mixed dishes,16.31816897428652,28.414207103551774,Starch,412.0,28.4,4.3,26.1,39.4,1.1,24.0,140.0,73.0
+Sorghum,Starch,Cereals and cereal products,43.247352628533754,52.28328449939256,"Starch, High Fiber",183.14285714285714,52.25714285714286,5.457142857142857,1.9857142857142858,32.41428571428572,6.942857142857143,5.142857142857143,170.0,0.2857142857142857
+Soybean,Protein,Legumes and pulses,77.66946092744342,46.92346173086543,"Protein, High Protein, High Fiber, High Potassium, Vegetarian",234.66666666666666,46.9,20.666666666666668,11.633333333333335,5.8999999999999995,11.700000000000001,5.0,932.0,0.0
+Spanish Omelette,Other,Mixed dishes,27.083922011867756,74.03701850925462,"Other, Hydrating, High Sodium",161.0,74.0,7.5,12.9,3.2,0.8,409.0,135.0,228.0
+Spider plant,Vegetable,Vegetables and vegetable products,38.42736491789897,85.90962147740538,"Vegetable, High Fiber, Hydrating, High Potassium, Vegetarian",40.666666666666664,85.86666666666667,4.533333333333333,0.7333333333333334,2.0,4.066666666666666,15.333333333333334,353.0,0.0
+Spinach,Vegetable,Vegetables and vegetable products,38.207591598379956,89.14457228614307,"Vegetable, High Fiber, Hydrating, High Sodium, High Potassium, Vegetarian",28.166666666666668,89.10000000000001,3.25,0.3166666666666667,1.0166666666666666,4.233333333333333,479.0,422.5,0.0
+Squash,Vegetable,Vegetables and vegetable products,29.97315625883018,85.99299649824913,"Vegetable, Hydrating, High Potassium, Vegetarian",47.5,85.95,1.6,0.1,8.65,2.75,7.675,306.25,0.0
+Steamed Rice,Starch,Mixed dishes,15.87548271639823,68.63431715857928,"Starch, High Sodium, Vegetarian",121.0,68.6,2.6,0.3,26.7,0.2,521.0,22.0,0.0
+Stewed Cowpea Leaves,Other,Mixed dishes,33.625317886408595,74.13706853426713,"Other, High Fiber, Hydrating, High Sodium",152.0,74.1,3.2,13.3,3.5,3.2,660.0,202.0,8.0
+Stewed Dried Fish,Protein,Mixed dishes,41.381746256004526,42.72136068034017,"Protein, High Protein, High Sodium, High Potassium, Vegetarian",330.0,42.7,25.7,23.2,3.9,1.4,572.0,403.0,0.0
+Stewed Goat Meat,Protein,Mixed dishes,33.10728077611378,59.429714857428706,"Protein, High Protein, High Sodium",222.0,59.4,17.1,14.6,5.2,0.8,783.0,235.0,82.0
+Stewed Green Bananas,Other,Mixed dishes,26.763680889140062,81.84092046023011,"Other, Hydrating, Vegetarian",84.0,81.8,1.0,3.8,10.4,2.2,100.0,175.0,0.0
+Stewed Guinea Fowl,Protein,Mixed dishes,32.8623905057926,69.73486743371686,"Protein, High Protein, High Sodium",154.0,69.7,15.8,9.0,2.0,0.7,736.0,240.0,145.0
+Stewed Kunde & Mrenda,Other,Mixed dishes,34.61429782424414,83.54177088544273,"Other, High Fiber, Hydrating, High Sodium, Vegetarian",57.0,83.5,3.7,2.0,4.4,3.3,761.0,244.0,0.0
+Stewed Mushrooms in Peanut Butter,Other,Mixed dishes,36.26259772063672,73.33666833416707,"Other, High Fiber, Hydrating, High Sodium, High Potassium",117.0,73.3,4.9,6.3,8.3,3.8,822.0,408.0,5.0
+Stewed Nile Perch,Protein,Mixed dishes,31.021004050108324,74.03701850925462,"Protein, High Protein, Hydrating, High Sodium",125.0,74.0,14.3,6.3,2.5,0.5,596.0,203.0,55.0
+Stewed Potatoes & Arrowroots,Other,Mixed dishes,24.686823019685413,78.03901950975487,"Other, Hydrating, High Potassium, Vegetarian",90.0,78.0,1.9,2.1,15.0,1.8,173.0,401.0,0.0
+Stewed Split Dal,Other,Mixed dishes,31.28473203353113,81.84092046023011,"Other, Hydrating, High Sodium, Vegetarian",69.0,81.8,3.7,1.9,8.1,2.7,459.0,142.0,0.0
+Stinging nettle,Vegetable,Vegetables and vegetable products,29.80283193620295,81.34067033516757,"Vegetable, Hydrating, High Potassium, Vegetarian",55.333333333333336,81.3,5.066666666666666,0.6666666666666666,6.3,1.9666666666666668,29.666666666666668,387.0,0.0
+Stir Fried Beef,Protein,Mixed dishes,40.58114344918527,50.32516258129064,"Protein, High Protein, High Sodium, High Potassium",255.0,50.3,26.7,14.1,5.0,1.0,682.0,483.0,81.0
+Stir Fried Goat Meat,Protein,Mixed dishes,45.3235377225205,30.21510755377689,"Protein, High Protein, High Potassium",383.0,30.2,32.1,23.3,10.4,1.7,221.0,465.0,154.0
+Stir-fried Cabbage,Other,Mixed dishes,29.3491570123387,82.74137068534267,"Other, Hydrating, High Sodium, High Potassium, Vegetarian",100.0,82.7,1.2,8.6,3.1,2.4,510.0,305.0,0.0
+Stir-fried Spinach,Other,Mixed dishes,34.15748328152963,84.44222111055528,"Other, High Fiber, Hydrating, High Sodium, High Potassium, Vegetarian",74.0,84.4,2.8,5.4,2.0,3.3,870.0,299.0,0.0
+Strawberry,Fruit,Fruits and fruit products,28.94885560892908,90.04502251125562,"Fruit, Hydrating, Vegetarian",35.0,90.0,0.7,0.2,6.3,2.5,3.0,158.0,0.0
+Sukumawiki,Other,Mixed dishes,35.923518884807386,87.04352176088044,"Other, High Fiber, Hydrating, Vegetarian",54.0,87.0,2.5,3.2,2.1,3.8,123.0,198.0,0.0
+Sweet Potato,Vegetable,Vegetables and vegetable products,42.931148158613546,87.64382191095547,"Vegetable, High Fiber, Hydrating, High Potassium, Vegetarian",36.0,87.6,4.3,0.5,0.8,5.3,6.0,620.0,0.0
+Sweet Potatoes with Peanut Butter,Other,Mixed dishes,27.84684939248375,81.14057028514256,"Other, Hydrating, Vegetarian",89.0,81.1,2.2,4.4,9.3,2.2,130.0,179.0,0.0
+Sweet potato,Starch,"Starchy roots, bananas and tubers",32.42441367617971,74.43721860930465,"Starch, High Fiber, Hydrating, High Potassium, Vegetarian",92.0,74.4,1.75,0.5,18.2,3.95,14.0,286.25,0.0
+Sweetpotato,Starch,"Starchy roots, bananas and tubers",29.410615051332766,78.73936968484242,"Starch, Hydrating, Vegetarian",76.95,78.7,1.9,0.1,15.6,3.0,9.0,225.0,0.0
+Tangerine,Fruit,Fruits and fruit products,21.301921446736365,87.2936468234117,"Fruit, Hydrating, Vegetarian",49.0,87.25,0.735,0.2,10.55,0.85,1.5,164.0,0.0
+Tea,Beverage,Beverages,55.161533389846475,5.102551275637818,"Beverage, High Protein, High Fiber, High Potassium, Vegetarian",299.0,5.1,20.2,0.0,50.2,8.5,72.0,6040.0,0.0
+Thabai / Thaa,Other,Mixed dishes,22.73711971366676,92.34617308654327,"Other, Hydrating",34.0,92.3,1.2,2.4,1.9,0.6,312.0,113.0,4.0
+Tomato,Vegetable,Vegetables and vegetable products,26.512197419233303,92.82641320660329,"Vegetable, Hydrating, Vegetarian",24.4,92.78,1.16,0.22000000000000003,3.62,1.64,27.0,156.0,0.0
+Tree tomato,Fruit,Fruits and fruit products,45.86512197419233,85.64282141070535,"Fruit, High Fiber, Hydrating, Vegetarian",43.0,85.6,2.1,0.3,4.6,6.5,20.0,133.0,0.0
+Tsiswa,Protein,Mixed dishes,58.6888951681266,10.505252626313156,"Protein, High Protein, High Fiber, High Sodium, High Potassium",515.0,10.5,31.6,38.8,7.3,5.1,2280.0,412.0,236.0
+Tuna,Protein,Fish and sea foods,40.82367900536875,62.281140570285146,"Protein, High Protein, High Potassium",143.5,62.25,30.3,2.425,0.0,0.0,55.75,410.75,9.25
+Ugali,Starch,Mixed dishes,30.80907977771498,61.33066533266632,"Starch, High Fiber, Vegetarian",145.0,61.3,2.0,0.6,30.7,4.3,11.0,236.0,0.0
+Vegetable Samosa,Protein,Mixed dishes,39.92182349062824,30.21510755377689,"Protein, High Fiber, High Potassium, Vegetarian",325.0,30.2,8.5,13.1,40.2,6.2,243.0,333.0,0.0
+Vimumunya vya Chumvi,Other,Mixed dishes,27.196948290477536,85.84292146073037,"Other, Hydrating, Vegetarian",72.0,85.8,1.3,4.9,4.6,1.9,325.0,183.0,0.0
+Vimumunya vya Sukari,Other,Mixed dishes,24.22529904869549,79.03951975987994,"Other, Hydrating, Vegetarian",93.0,79.0,1.1,3.0,14.5,1.8,15.0,155.0,0.0
+Vine,Vegetable,Vegetables and vegetable products,36.74766883300368,90.1950975487744,"Vegetable, High Fiber, Hydrating, High Potassium, Vegetarian",29.0,90.15,3.5,0.7,0.2,3.8,7.0,340.0,0.0
+Vine spinach,Other,Mixed dishes,35.202976358670064,84.7423711855928,"Other, High Fiber, Hydrating, High Potassium",72.0,84.7,3.2,5.2,1.4,3.5,170.0,389.0,13.0
+Vinolo,Starch,Mixed dishes,25.06828670999341,68.43421710855428,"Starch, Vegetarian",124.0,68.4,2.2,0.9,25.5,2.5,9.0,147.0,0.0
+Water,Beverage,Beverages,20.09513045116323,100.0,"Beverage, Hydrating, Vegetarian",0.0,99.95,0.0,0.0,0.0,0.0,3.0,1.0,0.0
+Watermelon,Fruit,Fruits and fruit products,22.94197984364698,92.94647323661832,"Fruit, Hydrating, Vegetarian",26.0,92.9,0.6,0.3,5.0,0.93,2.0,88.0,0.0
+Wheat Flour Porridge,Starch,Mixed dishes,21.15004238485448,76.33816908454226,"Starch, Hydrating, Vegetarian",111.0,76.3,2.5,3.9,16.1,0.9,3.0,60.0,0.0
+White Chapati,Starch,Mixed dishes,21.936516906847505,18.40920460230115,"Starch, Vegetarian",424.0,18.4,7.8,21.1,49.6,2.5,100.0,90.0,0.0
+Whole Maize Flour Ugali,Starch,Mixed dishes,30.851464632193654,64.53226613306653,"Starch, High Fiber, Vegetarian",141.0,64.5,3.3,1.8,26.0,3.8,7.0,93.0,0.0
+Wukunu,Starch,Mixed dishes,37.24215880192144,73.03651825912956,"Starch, High Fiber, Hydrating, High Potassium, Vegetarian",94.0,73.0,4.1,0.6,15.8,4.6,229.0,288.0,0.0
+Yam,Starch,"Starchy roots, bananas and tubers",40.14630623842266,50.158412539603134,"Starch, High Fiber, High Potassium, Vegetarian",180.66666666666666,50.13333333333333,2.433333333333333,0.26666666666666666,38.666666666666664,7.066666666666666,15.333333333333334,453.6666666666667,0.0
+Yam Stew,Starch,Mixed dishes,27.116888009795616,76.73836918459229,"Starch, Hydrating, High Potassium, Vegetarian",94.0,76.7,1.5,2.4,15.3,2.5,347.0,279.0,0.0
+Yoghurt,Protein,Milk and dairy products,19.082603371950647,82.04102051025512,"Protein, Hydrating",85.0,82.0,2.9,3.1,11.3,0.0,32.0,130.0,9.0
+Zambarau,Fruit,Fruits and fruit products,17.005745502495994,85.34267133566783,"Fruit, Hydrating, Vegetarian",59.0,85.3,0.52,0.4,13.5,0.0,11.0,72.0,0.0
+“Brown” Maize and Finger Millet Flour Ugali,Starch,Mixed dishes,42.42723933314496,64.032016008004,"Starch, High Fiber, Vegetarian",133.0,64.0,3.1,1.3,24.0,6.6,6.0,158.0,0.0
+“Busara”,Other,Mixed dishes,28.901761326175006,88.64432216108054,"Other, Hydrating, Vegetarian",40.0,88.6,1.0,0.3,7.3,2.5,4.0,41.0,0.0
+“Omena”,Protein,Mixed dishes,26.8531600263728,68.53426713356679,"Protein, High Sodium",180.0,68.5,8.8,13.3,6.0,0.7,449.0,188.0,123.0
+“Terere”,Other,Mixed dishes,42.544975040030145,80.64032016008004,"Other, High Fiber, Hydrating, High Potassium, Vegetarian",83.0,80.6,3.0,5.3,2.9,5.5,161.0,442.0,0.0
